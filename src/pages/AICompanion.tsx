@@ -23,9 +23,16 @@ const AICompanion = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [signLanguageResponse, setSignLanguageResponse] = useState<SignLanguageResponse | null>(null);
+  const [isAIConnected, setIsAIConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const speechSynthesis = typeof window !== "undefined" ? window.speechSynthesis : null;
   const hasInitialized = useRef(false);
+
+  // Check if AI API is configured
+  useEffect(() => {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    setIsAIConnected(!!apiKey);
+  }, []);
 
   // Initialize with disability-aware greeting (only on mount)
   useEffect(() => {
@@ -69,9 +76,6 @@ const AICompanion = () => {
         userMessage: userMessage.content,
         conversationHistory: messages,
       });
-
-      // Add a small delay to simulate thinking (more natural feel)
-      await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
 
       setMessages((prev) => [
         ...prev,
@@ -130,9 +134,6 @@ const AICompanion = () => {
         userMessage: text,
         conversationHistory: messages,
       });
-
-      // Add a small delay to simulate processing
-      await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
 
       // Create sign language response with transcript and summary
       // Format transcript to be clear and ASL-friendly
@@ -195,10 +196,30 @@ const AICompanion = () => {
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-7xl mx-auto">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold mb-2">AI Learning Companion</h1>
+              <div className="flex items-center justify-between mb-2">
+                <h1 className="text-3xl font-bold">AI Learning Companion</h1>
+                {isAIConnected ? (
+                  <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span>AI Connected</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
+                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                    <span>Using Fallback Mode</span>
+                  </div>
+                )}
+              </div>
               <p className="text-muted-foreground">
                 👀 Sign language input and output • Visual-first communication
               </p>
+              {!isAIConnected && (
+                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                  <p className="text-sm text-amber-800 dark:text-amber-200">
+                    ⚠️ <strong>AI API not configured.</strong> Add your OpenAI API key to <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">.env</code> file for real AI conversations. See <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">AI_API_SETUP.md</code> for instructions.
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -261,7 +282,20 @@ const AICompanion = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">AI Learning Companion</h1>
+            <div className="flex items-center justify-between mb-2">
+              <h1 className="text-3xl font-bold">AI Learning Companion</h1>
+              {isAIConnected ? (
+                <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span>AI Connected</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
+                  <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                  <span>Using Fallback Mode</span>
+                </div>
+              )}
+            </div>
             <p className="text-muted-foreground">
               {disability === "adhd" && "🎯 Short, focused answers to keep you engaged"}
               {disability === "dyslexia" && "📖 Clear, simple explanations to help you learn"}
@@ -273,6 +307,13 @@ const AICompanion = () => {
                 💡 Responses optimized for {disability === "adhd" && "ADHD"}
                 {disability === "dyslexia" && "Dyslexia"}
                 {disability === "vision" && "Vision Impairment"} users
+              </div>
+            )}
+            {!isAIConnected && (
+              <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                <p className="text-sm text-amber-800 dark:text-amber-200">
+                  ⚠️ <strong>AI API not configured.</strong> Add your OpenAI API key to <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">.env</code> file for real AI conversations. See <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">AI_API_SETUP.md</code> for instructions.
+                </p>
               </div>
             )}
           </div>

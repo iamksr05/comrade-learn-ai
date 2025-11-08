@@ -1,8 +1,44 @@
-# Welcome to your Lovable project
+# Comrade Learn AI
 
-## Project info
+An AI-powered learning platform with accessibility features for users with different disabilities.
 
-**URL**: https://lovable.dev/projects/4b6488c3-eef0-47c5-857d-f8dc99f6686e
+## Features
+
+- 🤖 **Real AI Conversations**: Powered by OpenAI GPT-4o-mini
+- 🎯 **Disability-Aware Responses**: Customized AI responses for ADHD, Dyslexia, Vision, and Hearing impairments
+- 👋 **Sign Language Support**: Sign language input and output for deaf/hard of hearing users
+- 🎨 **Adaptive Theming**: UI adapts based on user's disability preferences
+- 📚 **Learning Companion**: Personalized AI tutor for programming and technology
+
+## Quick Start
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Set Up AI API (Optional but Recommended)
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_OPENAI_API_KEY=your_openai_api_key_here
+```
+
+Get your API key from: https://platform.openai.com/api-keys
+
+**Note**: Without an API key, the app will use fallback responses (still disability-aware but less intelligent).
+
+See [AI_API_SETUP.md](./AI_API_SETUP.md) for detailed setup instructions.
+
+### 3. Start Development Server
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:8080`
 
 ## How can I edit this code?
 

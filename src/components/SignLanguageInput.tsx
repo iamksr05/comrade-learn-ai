@@ -120,12 +120,9 @@ export function SignLanguageInput({ onSignLanguageDetected, onTextInput }: SignL
         // captureFrame may internally use the video element
         // captureFrame should return { text, confidence }
         result = await recognizer.captureFrame();
-      } else if (typeof recognizer.recognize === "function") {
-        // older API possibility
-        result = await recognizer.recognize(video);
       } else {
         // no recognizer method, bail
-        throw new Error("Recognizer has no captureFrame/recognize method");
+        throw new Error("Recognizer has no captureFrame method");
       }
 
       if (result) {

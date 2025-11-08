@@ -1,4 +1,5 @@
 import { DisabilityType } from "@/types/disability";
+import OpenAI from "openai";
 
 export interface AIMessage {
   role: "user" | "assistant";
@@ -10,6 +11,26 @@ export interface AIPromptConfig {
   userMessage: string;
   conversationHistory?: AIMessage[];
 }
+
+// Initialize OpenAI client
+const getOpenAIClient = (): OpenAI | null => {
+  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  
+  if (!apiKey) {
+    console.warn("OpenAI API key not found. Using fallback responses.");
+    return null;
+  }
+
+  try {
+    return new OpenAI({
+      apiKey: apiKey,
+      dangerouslyAllowBrowser: true, // Note: In production, use a backend proxy for API calls
+    });
+  } catch (error) {
+    console.error("Error initializing OpenAI client:", error);
+    return null;
+  }
+};
 
 /**
  * AI Response Adapter - Adapts AI responses based on user's disability
@@ -243,24 +264,76 @@ Remember: Help users learn effectively and build confidence.`;
   }
 
   /**
-   * Generate a disability-aware response
+   * Generate a disability-aware response using OpenAI API
    */
   static async generateResponse(config: AIPromptConfig): Promise<string> {
     const { disability, userMessage, conversationHistory = [] } = config;
-    
-    // Simulate AI response generation
-    // In a real implementation, this would call an AI API
-    
-    // For now, generate a contextual response based on disability
     const systemPrompt = this.getSystemPrompt(disability);
     
-    // Simulate different response styles
-    let response = this.generateContextualResponse(userMessage, disability);
+    const openai = getOpenAIClient();
     
-    // Format the response
-    response = this.formatResponse(response, disability);
-    
-    return response;
+    // If OpenAI is not available, fall back to contextual responses
+    if (!openai) {
+      console.log("Using fallback AI responses (OpenAI not configured)");
+      let response = this.generateContextualResponse(userMessage, disability);
+      response = this.formatResponse(response, disability);
+      return response;
+    }
+
+    try {
+      // Build conversation messages
+      const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
+        { role: "system", content: systemPrompt },
+      ];
+
+      // Add conversation history (limit to last 10 messages to avoid token limits)
+      const recentHistory = conversationHistory.slice(-10);
+      for (const msg of recentHistory) {
+        messages.push({
+          role: msg.role,
+          content: msg.content,
+        });
+      }
+
+      // Add current user message
+      messages.push({
+        role: "user",
+        content: userMessage,
+      });
+
+      // Call OpenAI API
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini", // Using GPT-4o-mini for cost-effectiveness, can be changed to "gpt-4" or "gpt-3.5-turbo"
+        messages: messages as any,
+        temperature: 0.7,
+        max_tokens: 1000,
+      });
+
+      let response = completion.choices[0]?.message?.content || "I apologize, but I couldn't generate a response. Please try again.";
+
+      // Format the response based on disability
+      response = this.formatResponse(response, disability);
+
+      return response;
+    } catch (error: any) {
+      console.error("Error calling OpenAI API:", error);
+      
+      // Fallback to contextual response on error
+      console.log("Falling back to contextual response due to API error");
+      let fallbackResponse = this.generateContextualResponse(userMessage, disability);
+      fallbackResponse = this.formatResponse(fallbackResponse, disability);
+      
+      // Prepend error message if it's a clear API error
+      if (error?.status === 401) {
+        return "⚠️ API authentication error. Please check your API key configuration.\n\n" + fallbackResponse;
+      } else if (error?.status === 429) {
+        return "⚠️ Rate limit exceeded. Please try again in a moment.\n\n" + fallbackResponse;
+      } else if (error?.message) {
+        return `⚠️ ${error.message}\n\n` + fallbackResponse;
+      }
+      
+      return fallbackResponse;
+    }
   }
 
   /**
