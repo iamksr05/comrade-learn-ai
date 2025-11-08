@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/Logo";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { ArrowRight } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,21 +24,9 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <nav className="flex gap-6">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost">
-                    Home <ChevronDown className="ml-1 w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => navigate("/ai-companion")}>
-                    Talk to your AI companion
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/hub")}>
-                    Learn Programming
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+                Home
+              </Button>
               <Button variant="ghost" onClick={() => navigate("/settings")}>
                 Settings
               </Button>
@@ -62,29 +44,36 @@ const Dashboard = () => {
 
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center">
+          <div className="text-left">
             <h1 className="text-5xl font-bold text-foreground mb-4">Hello, {userName}</h1>
           </div>
 
           <Card className="p-8 bg-card">
-            <div className="text-center space-y-4">
-              <p className="text-sm font-semibold text-primary uppercase tracking-wide">
-                Thought for the Day
-              </p>
-              <blockquote className="text-2xl font-semibold text-foreground leading-relaxed">
-                {quote.text}
+            <div className="text-left space-y-4">
+              <blockquote className="text-3xl font-semibold leading-relaxed">
+                "<span className="text-primary">The single biggest problem</span>{" "}
+                <span className="text-secondary">in communication</span>{" "}
+                <span className="text-accent">is the illusion</span>{" "}
+                <span className="text-muted-foreground">that it has taken place</span>."
               </blockquote>
-              <p className="text-lg text-primary">— {quote.author}</p>
             </div>
           </Card>
 
-          <div className="text-center">
+          <div className="flex gap-4">
             <Button
               size="lg"
               className="text-lg px-8 py-6"
+              onClick={() => navigate("/ai-companion")}
+            >
+              Talk to your AI <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="text-lg px-8 py-6"
               onClick={() => navigate("/hub")}
             >
-              Go to Hub <ArrowRight className="ml-2 w-5 h-5" />
+              Learn Programming <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
         </div>
