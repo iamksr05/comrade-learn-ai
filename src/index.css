@@ -8,95 +8,121 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 220 15% 15%;
+    /* Light mode theme using the new color palette */
+    /* Background: Light version with purple tint */
+    --background: 265 40% 98%;
+    --foreground: 231 90% 15%;
 
+    /* Card: Pure white with subtle purple tint */
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card-foreground: 231 90% 15%;
 
+    /* Popover: White background */
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover-foreground: 231 90% 15%;
 
-    --primary: 217 91% 60%;
+    /* Primary: Electric Purple #A259FF */
+    --primary: 265 100% 67%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 220 15% 15%;
+    /* Secondary: Light purple tint */
+    --secondary: 265 30% 95%;
+    --secondary-foreground: 231 90% 15%;
 
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 10% 50%;
+    /* Muted: Light purple-gray */
+    --muted: 265 20% 94%;
+    --muted-foreground: 231 40% 45%;
 
-    --accent: 217 91% 60%;
+    /* Accent: Royal Azure #006BDF */
+    --accent: 211 100% 44%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    /* Destructive: Warm Coral #FF6B6B */
+    --destructive: 0 100% 71%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 217 91% 60%;
+    /* Border: Light purple-gray */
+    --border: 265 20% 88%;
+    --input: 265 20% 88%;
+    --ring: 265 100% 67%;
 
     --radius: 0.75rem;
     
-    --success: 142 76% 36%;
+    /* Success: Vivid Teal #00BFA6 */
+    --success: 172 100% 37%;
     --success-foreground: 0 0% 100%;
     
-    --info: 199 89% 48%;
+    /* Info: Royal Azure #006BDF */
+    --info: 211 100% 44%;
     --info-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar: Light purple tint */
+    --sidebar-background: 265 35% 97%;
+    --sidebar-foreground: 231 90% 15%;
+    --sidebar-primary: 265 100% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 265 25% 93%;
+    --sidebar-accent-foreground: 231 90% 15%;
+    --sidebar-border: 265 20% 88%;
+    --sidebar-ring: 265 100% 67%;
   }
 
   .dark {
-    --background: 220 15% 10%;
+    /* Dark mode theme using the new color palette */
+    /* Background: Midnight Indigo #040F49 */
+    --background: 231 90% 15%;
     --foreground: 0 0% 95%;
 
-    --card: 220 15% 12%;
+    /* Card: Deep Violet #241446 */
+    --card: 259 56% 18%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 220 15% 12%;
+    /* Popover: Deep Violet */
+    --popover: 259 56% 18%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 217 91% 60%;
+    /* Primary: Electric Purple #A259FF */
+    --primary: 265 100% 67%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 15%;
+    /* Secondary: Dark Lavender #474787 */
+    --secondary: 240 31% 40%;
     --secondary-foreground: 0 0% 95%;
 
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 60%;
+    /* Muted: Dark Lavender */
+    --muted: 240 31% 35%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 217 91% 60%;
+    /* Accent: Electric Purple */
+    --accent: 265 100% 67%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 50%;
+    /* Destructive: Warm Coral #FF6B6B */
+    --destructive: 0 100% 71%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 217 91% 60%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Border: Dark purple-gray */
+    --border: 240 31% 30%;
+    --input: 240 31% 30%;
+    --ring: 265 100% 67%;
+
+    /* Sidebar: Midnight Indigo with purple accent */
+    --sidebar-background: 231 90% 15%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 265 100% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 259 56% 22%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 240 31% 30%;
+    --sidebar-ring: 265 100% 67%;
+
+    /* Success: Deep Forest Green #124622 (lighter for visibility) */
+    --success: 138 59% 35%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Info: Dark Cyan Slate #0A2F30 (lighter for visibility) */
+    --info: 182 66% 25%;
+    --info-foreground: 0 0% 100%;
   }
 }
 
@@ -105,7 +131,591 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-image: 
+      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.03) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.03) 0px, transparent 50%);
+    background-size: 100% 100%;
   }
+
+  .dark body {
+    background-image: 
+      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.06) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.06) 0px, transparent 50%);
+  }
+
+  /* ADHD mode - calmer background */
+  .adhd-mode body {
+    background-image: 
+      radial-gradient(at 0% 0%, hsl(200 50% 50% / 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(150 40% 50% / 0.02) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(200 50% 50% / 0.02) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(150 40% 50% / 0.03) 0px, transparent 50%);
+    background-size: 100% 100%;
+  }
+
+  /* Enhanced scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+
+  /* Smooth selection styling */
+  ::selection {
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
+
+  ::-moz-selection {
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
+
+  /* Enhanced typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+
+  /* Smooth link transitions */
+  a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+}
+
+@layer components {
+  /* Enhanced card styling */
+  .card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px hsl(var(--primary) / 0.1),
+                0 10px 10px -5px hsl(var(--primary) / 0.04);
+  }
+
+  /* Enhanced button styling */
+  button:not(:disabled) {
+    position: relative;
+    overflow: hidden;
+  }
+
+  button:not(:disabled)::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  button:not(:disabled):hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  button:not(:disabled) > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Enhanced input styling */
+  input, textarea, select {
+    transition: all 0.2s ease;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.1),
+                0 4px 6px -2px hsl(var(--primary) / 0.05);
+  }
+
+  /* Gradient text effect */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animated gradient background */
+  .gradient-bg {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.1) 0%,
+      hsl(var(--accent) / 0.1) 50%,
+      hsl(var(--primary) / 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Glow effect */
+  .glow {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3),
+                0 0 40px hsl(var(--primary) / 0.2),
+                0 0 60px hsl(var(--primary) / 0.1);
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.4),
+                0 0 60px hsl(var(--primary) / 0.3),
+                0 0 90px hsl(var(--primary) / 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+
+  /* Subtle shine effect */
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+  }
+
+  /* Smooth fade-in animation */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  /* Pulse animation */
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.5);
+    }
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  /* Enhanced shadow utilities */
+  .shadow-glow {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.2),
+                0 10px 25px -5px hsl(var(--primary) / 0.1);
+  }
+
+  .shadow-glow-lg {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.3),
+                0 20px 50px -5px hsl(var(--primary) / 0.2);
+  }
+
+  /* Smooth transitions utility */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Backdrop blur utility */
+  .backdrop-blur-card {
+    backdrop-filter: blur(12px) saturate(180%);
+    background-color: hsl(var(--card) / 0.8);
+  }
+
+  /* Border gradient utility */
+  .border-gradient {
+    border-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))) 1;
+  }
+
+  /* Text shadow for better readability */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ========================================
+   DISABILITY-SPECIFIC THEMES
+   ======================================== */
+
+/* ADHD Theme - Calm, relaxing, minimal distractions */
+.theme-adhd {
+  /* Soft, calming blues and greens */
+  --background: 200 30% 96%;
+  --foreground: 210 20% 20%;
+  
+  --card: 200 25% 98%;
+  --card-foreground: 210 20% 20%;
+  
+  --primary: 200 70% 50%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 150 30% 92%;
+  --secondary-foreground: 210 20% 20%;
+  
+  --muted: 200 20% 94%;
+  --muted-foreground: 210 15% 45%;
+  
+  --accent: 150 50% 45%;
+  --accent-foreground: 0 0% 100%;
+  
+  --border: 200 25% 90%;
+  --input: 200 25% 90%;
+  --ring: 200 70% 50%;
+  
+  --success: 150 60% 40%;
+  --info: 200 70% 50%;
+  
+  /* Reduce animations for ADHD */
+  --animation-speed: 0.3s;
+}
+
+.adhd-mode {
+  /* Minimal distractions */
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.adhd-mode * {
+  /* Reduce motion for calmer experience */
+  animation-duration: 0.5s !important;
+}
+
+.adhd-mode .card,
+.adhd-mode button {
+  /* Softer shadows for less visual noise */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.adhd-mode .card:hover {
+  /* Subtle hover effects */
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Dyslexia Theme - High contrast, dyslexia-friendly */
+.theme-dyslexia {
+  /* High contrast colors */
+  --background: 0 0% 98%;
+  --foreground: 0 0% 10%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  
+  --primary: 220 90% 50%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 220 20% 95%;
+  --secondary-foreground: 0 0% 10%;
+  
+  --muted: 220 15% 92%;
+  --muted-foreground: 0 0% 30%;
+  
+  --accent: 220 90% 50%;
+  --accent-foreground: 0 0% 100%;
+  
+  --border: 0 0% 85%;
+  --input: 0 0% 85%;
+  --ring: 220 90% 50%;
+  
+  --success: 120 70% 40%;
+  --info: 220 90% 50%;
+}
+
+.dyslexia-mode {
+  /* Dyslexia-friendly font stack */
+  font-family: 'Comic Sans MS', 'Trebuchet MS', 'Arial', sans-serif;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  word-spacing: 0.1em;
+}
+
+.dyslexia-mode p,
+.dyslexia-mode span,
+.dyslexia-mode div {
+  /* Increased letter spacing for readability */
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+}
+
+.dyslexia-mode h1,
+.dyslexia-mode h2,
+.dyslexia-mode h3,
+.dyslexia-mode h4,
+.dyslexia-mode h5,
+.dyslexia-mode h6 {
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.dyslexia-mode .card {
+  /* More padding for better readability */
+  padding: 1.5rem;
+}
+
+.dyslexia-mode input,
+.dyslexia-mode textarea {
+  /* Larger input fields */
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  line-height: 1.8;
+}
+
+/* Hearing Theme - Visual-first, clear visual indicators */
+.theme-hearing {
+  /* Vibrant, clear colors for visual communication */
+  --background: 240 20% 97%;
+  --foreground: 240 30% 15%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 240 30% 15%;
+  
+  --primary: 240 80% 55%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 240 30% 94%;
+  --secondary-foreground: 240 30% 15%;
+  
+  --muted: 240 20% 92%;
+  --muted-foreground: 240 25% 45%;
+  
+  --accent: 280 70% 55%;
+  --accent-foreground: 0 0% 100%;
+  
+  --border: 240 30% 88%;
+  --input: 240 30% 88%;
+  --ring: 240 80% 55%;
+  
+  --success: 120 70% 45%;
+  --info: 240 80% 55%;
+}
+
+.hearing-mode {
+  /* Emphasis on visual elements */
+  font-weight: 500;
+}
+
+.hearing-mode button,
+.hearing-mode .card {
+  /* Stronger visual boundaries */
+  border: 2px solid hsl(var(--border));
+}
+
+.hearing-mode button:focus,
+.hearing-mode input:focus {
+  /* Very clear focus indicators */
+  outline: 3px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+.hearing-mode .card {
+  /* Clear visual separation */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Vision Theme - High contrast, screen reader friendly */
+.theme-vision {
+  /* Maximum contrast */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 5%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 5%;
+  
+  --primary: 240 100% 45%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 0 0% 95%;
+  --secondary-foreground: 0 0% 5%;
+  
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 30%;
+  
+  --accent: 240 100% 45%;
+  --accent-foreground: 0 0% 100%;
+  
+  --border: 0 0% 70%;
+  --input: 0 0% 70%;
+  --ring: 240 100% 45%;
+  
+  --success: 120 100% 30%;
+  --info: 240 100% 45%;
+  
+  /* Larger default font size */
+  font-size: 18px;
+}
+
+.vision-mode {
+  /* High contrast mode */
+  color-scheme: light;
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.vision-mode body {
+  font-size: 1.125rem;
+}
+
+.vision-mode h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.vision-mode h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.vision-mode h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.vision-mode p,
+.vision-mode span,
+.vision-mode div {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.vision-mode button {
+  /* Larger, clearer buttons */
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: 2px solid hsl(var(--foreground));
+}
+
+.vision-mode input,
+.vision-mode textarea,
+.vision-mode select {
+  /* Larger input fields */
+  min-height: 48px;
+  font-size: 1.125rem;
+  padding: 0.75rem;
+  border: 2px solid hsl(var(--border));
+}
+
+.vision-mode .card {
+  /* Strong borders for clarity */
+  border: 2px solid hsl(var(--border));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.vision-mode *:focus {
+  /* Very prominent focus indicators */
+  outline: 4px solid hsl(var(--primary));
+  outline-offset: 3px;
+}
+
+.vision-mode a {
+  /* Clear link indicators */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+}
+
+/* None Theme - Standard experience (default theme, no overrides needed) */
+.theme-none {
+  /* Uses default theme defined in :root - no custom overrides */
+  color-scheme: light;
 }

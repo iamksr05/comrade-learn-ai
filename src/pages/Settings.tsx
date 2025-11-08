@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,18 +8,27 @@ import { Logo } from "@/components/Logo";
 import { DisabilityCard } from "@/components/DisabilityCard";
 import { ArrowLeft, Eye, EyeOff, Ear, Brain, Type } from "lucide-react";
 import { DisabilityType } from "@/types/disability";
+import { useTheme } from "@/contexts/ThemeContext";
 import { toast } from "sonner";
 
 const Settings = () => {
   const navigate = useNavigate();
+  const { disability, updateDisability } = useTheme();
   const [userData] = useState(() => {
     const user = localStorage.getItem("comrade_user");
     return user ? JSON.parse(user) : null;
   });
 
   const [selectedDisability, setSelectedDisability] = useState<DisabilityType>(
-    userData?.disability || "none"
+    disability || userData?.disability || "none"
   );
+
+  // Sync with theme context when it changes
+  useEffect(() => {
+    if (disability) {
+      setSelectedDisability(disability);
+    }
+  }, [disability]);
   const [settings, setSettings] = useState({
     notifications: true,
     systemUpdates: false,
@@ -62,12 +71,9 @@ const Settings = () => {
   ];
 
   const handleSave = () => {
-    // Update user data in localStorage
-    if (userData) {
-      const updatedUser = { ...userData, disability: selectedDisability };
-      localStorage.setItem("comrade_user", JSON.stringify(updatedUser));
-    }
-    toast.success("Settings saved successfully!");
+    // Update theme (which also updates localStorage)
+    updateDisability(selectedDisability);
+    toast.success("Settings saved successfully! Theme updated.");
   };
 
   const handleLogout = () => {
@@ -102,14 +108,19 @@ const Settings = () => {
             <div>
               <h2 className="text-2xl font-bold mb-4">Choose Your Primary Experience</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {disabilities.map((disability) => (
+                {disabilities.map((disabilityOption) => (
                   <DisabilityCard
-                    key={disability.type}
-                    icon={disability.icon}
-                    title={disability.title}
-                    description={disability.description}
-                    selected={selectedDisability === disability.type}
-                    onClick={() => setSelectedDisability(disability.type)}
+                    key={disabilityOption.type}
+                    icon={disabilityOption.icon}
+                    title={disabilityOption.title}
+                    description={disabilityOption.description}
+                    selected={selectedDisability === disabilityOption.type}
+                    onClick={() => {
+                      setSelectedDisability(disabilityOption.type);
+                      // Apply theme immediately when selected
+                      updateDisability(disabilityOption.type);
+                      toast.success(`${disabilityOption.title} mode activated!`);
+                    }}
                   />
                 ))}
               </div>

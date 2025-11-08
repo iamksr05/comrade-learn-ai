@@ -8,10 +8,12 @@ import { DisabilityCard } from "@/components/DisabilityCard";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Eye, EyeOff, Ear, Brain, Type } from "lucide-react";
 import { DisabilityType } from "@/types/disability";
+import { useTheme } from "@/contexts/ThemeContext";
 import { toast } from "sonner";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { updateDisability } = useTheme();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
@@ -67,6 +69,8 @@ const Signup = () => {
       }
       // Save to localStorage (mock authentication)
       localStorage.setItem("comrade_user", JSON.stringify(formData));
+      // Ensure theme is applied with the saved disability
+      updateDisability(formData.disability);
       toast.success("Account created successfully!");
       navigate("/onboarding");
     }
@@ -148,7 +152,11 @@ const Signup = () => {
                   title={disability.title}
                   description={disability.description}
                   selected={formData.disability === disability.type}
-                  onClick={() => setFormData({ ...formData, disability: disability.type })}
+                  onClick={() => {
+                    setFormData({ ...formData, disability: disability.type });
+                    // Apply theme immediately when selected
+                    updateDisability(disability.type);
+                  }}
                 />
               ))}
             </div>
