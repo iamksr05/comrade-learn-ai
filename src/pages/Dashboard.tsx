@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/Logo";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,12 +30,21 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <nav className="flex gap-6">
-              <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-                Home
-              </Button>
-              <Button variant="ghost" onClick={() => navigate("/hub")}>
-                Hub
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    Home <ChevronDown className="ml-1 w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => navigate("/ai-companion")}>
+                    Talk to your AI companion
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/hub")}>
+                    Learn Programming
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button variant="ghost" onClick={() => navigate("/settings")}>
                 Settings
               </Button>

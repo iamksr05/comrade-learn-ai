@@ -2,8 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/Logo";
-import { MessageSquare, Plus, BookOpen } from "lucide-react";
+import { MessageSquare, Plus, BookOpen, ChevronDown } from "lucide-react";
 import { sampleCourses } from "@/data/sampleCourses";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Hub = () => {
   const navigate = useNavigate();
@@ -16,12 +22,21 @@ const Hub = () => {
           <div className="flex items-center justify-between">
             <Logo />
             <nav className="flex gap-6">
-              <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-                Home
-              </Button>
-              <Button variant="ghost" onClick={() => navigate("/hub")}>
-                Hub
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    Home <ChevronDown className="ml-1 w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => navigate("/ai-companion")}>
+                    Talk to your AI companion
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/hub")}>
+                    Learn Programming
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button variant="ghost" onClick={() => navigate("/settings")}>
                 Settings
               </Button>
