@@ -13,8 +13,16 @@ const Dashboard = () => {
   const { disability, speakText, settings } = useTheme();
   const [userName, setUserName] = useState("Student");
 
-  // Load user data from localStorage
+  // Check if user is logged in (for simple auth without Clerk)
   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn !== "true") {
+      // Not logged in, redirect to login
+      navigate("/login");
+      return;
+    }
+
+    // Load user name from localStorage
     const userData = localStorage.getItem("userData");
     if (userData) {
       try {
@@ -24,7 +32,7 @@ const Dashboard = () => {
         console.error("Error parsing user data:", error);
       }
     }
-  }, []);
+  }, [navigate]);
 
   // Get daily quote - will be the same throughout the day
   const dailyQuote = useMemo(() => getDailyQuote(), []);

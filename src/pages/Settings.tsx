@@ -63,7 +63,7 @@ const Settings = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("allCourses");
     toast.success("Logged out successfully");
     navigate("/");
   };

@@ -78,14 +78,9 @@ const Profile = () => {
       toast.error("Please enter your name");
       return;
     }
-    if (!formData.email.trim() || !formData.email.includes("@")) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
-
     setIsSaving(true);
     
-    // Update profile in localStorage
+    // Update localStorage for app-specific settings
     const userData = {
       name: formData.name.trim(),
       email: formData.email.trim(),
