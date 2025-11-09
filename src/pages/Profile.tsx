@@ -9,11 +9,13 @@ import { DisabilityCard } from "@/components/DisabilityCard";
 import { ArrowLeft, Eye, EyeOff, Ear, Brain, Type, User, Mail, Sparkles } from "lucide-react";
 import { DisabilityType } from "@/types/disability";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { disability, updateDisability, speakText, settings } = useTheme();
+  const { profile, user, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,22 +24,22 @@ const Profile = () => {
     disability: "none" as DisabilityType,
   });
 
-  // Load user data from localStorage
+  // Load user data from Supabase profile
   useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      try {
-        const parsed = JSON.parse(userData);
-        setFormData({
-          name: parsed.name || "",
-          email: parsed.email || "",
-          disability: (parsed.disability as DisabilityType) || disability || "none",
-        });
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
+    if (profile) {
+      setFormData({
+        name: profile.name || "",
+        email: profile.email || user?.email || "",
+        disability: (profile.disability as DisabilityType) || "none",
+      });
+    } else if (user) {
+      setFormData({
+        name: user.user_metadata?.name || "",
+        email: user.email || "",
+        disability: (user.user_metadata?.disability as DisabilityType) || "none",
+      });
     }
-  }, [disability]);
+  }, [profile, user]);
 
   const disabilities = [
     {
@@ -80,42 +82,51 @@ const Profile = () => {
     }
     setIsSaving(true);
     
-    // Update localStorage for app-specific settings
-    const userData = {
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      disability: formData.disability,
-      settings: settings,
-    };
-    
-    localStorage.setItem("userData", JSON.stringify(userData));
-    setIsSaving(false);
+    try {
+      // Update profile in Supabase
+      const { error } = await updateProfile({
+        name: formData.name.trim(),
+        disability: formData.disability,
+        settings: settings,
+      });
 
-    // Update theme context
-    updateDisability(formData.disability);
-    
-    toast.success("Profile updated successfully!");
-    setIsEditing(false);
-    
-    if (settings.textToSpeech) {
-      speakText("Profile updated successfully");
+      if (error) {
+        toast.error(error.message || "Failed to update profile");
+        setIsSaving(false);
+        return;
+      }
+
+      // Update theme context
+      updateDisability(formData.disability);
+      
+      toast.success("Profile updated successfully!");
+      setIsEditing(false);
+      
+      if (settings.textToSpeech) {
+        speakText("Profile updated successfully");
+      }
+    } catch (error: any) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleCancel = () => {
-    // Reload original data from localStorage
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      try {
-        const parsed = JSON.parse(userData);
-        setFormData({
-          name: parsed.name || "",
-          email: parsed.email || "",
-          disability: (parsed.disability as DisabilityType) || disability || "none",
-        });
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
+    // Reload original data from profile
+    if (profile) {
+      setFormData({
+        name: profile.name || "",
+        email: profile.email || user?.email || "",
+        disability: (profile.disability as DisabilityType) || "none",
+      });
+    } else if (user) {
+      setFormData({
+        name: user.user_metadata?.name || "",
+        email: user.email || "",
+        disability: (user.user_metadata?.disability as DisabilityType) || "none",
+      });
     }
     setIsEditing(false);
   };
@@ -180,25 +191,18 @@ const Profile = () => {
                 )}
               </div>
 
-              {/* Email Field */}
+              {/* Email Field - Read Only */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   Email Address
                 </Label>
-                {isEditing ? (
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="your.email@example.com"
-                  />
-                ) : (
-                  <div className="p-3 bg-muted rounded-md">
-                    <p className="text-lg">{formData.email || "Not set"}</p>
-                  </div>
-                )}
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-lg">{formData.email || "Not set"}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Email cannot be changed. Contact support if you need to update your email.
+                  </p>
+                </div>
               </div>
 
               {/* Special Ability Field */}

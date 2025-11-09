@@ -6,33 +6,32 @@ import { Logo } from "@/components/Logo";
 import { ArrowRight, Sparkles, Quote as QuoteIcon, BookOpen, MessageSquare, Volume2, Settings as SettingsIcon } from "lucide-react";
 import { getDailyQuote, getGreeting } from "@/utils/dailyQuotes";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { getAICompanionUrl } from "@/utils/aiCompanionUrls";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { disability, speakText, settings } = useTheme();
+  const { disability, speakText, settings, updateDisability, updateSettings } = useTheme();
+  const { profile, user } = useAuth();
   const [userName, setUserName] = useState("Student");
 
-  // Load user name from localStorage
+  // Load user name from Supabase profile and sync theme
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn !== "true") {
-      // Not logged in, redirect to login
-      navigate("/login");
-      return;
-    }
-
-    // Load user name from localStorage
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      try {
-        const parsed = JSON.parse(userData);
-        setUserName(parsed.name?.split(" ")[0] || "Student");
-      } catch (error) {
-        console.error("Error parsing user data:", error);
+    if (profile) {
+      setUserName(profile.name?.split(" ")[0] || "Student");
+      // Sync theme with user's disability preference from profile
+      if (profile.disability && profile.disability !== 'none') {
+        updateDisability(profile.disability as any);
       }
+      // Sync settings with user's settings from profile
+      if (profile.settings) {
+        updateSettings(profile.settings);
+      }
+    } else if (user?.email) {
+      // Fallback to email if profile not loaded yet
+      setUserName(user.email.split("@")[0]);
     }
-  }, [navigate]);
+  }, [profile, user, updateDisability, updateSettings]);
 
   // Get daily quote - will be the same throughout the day
   const dailyQuote = useMemo(() => getDailyQuote(), []);

@@ -1,12 +1,12 @@
-export const Logo = ({ className = "" }: { className?: string }) => {
+export const Logo = ({ className = "", size = "default" }: { className?: string; size?: "default" | "large" }) => {
+  const sizeClass = size === "large" ? "h-24" : "h-16";
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={className}>
       <img 
-        src="/comrade.webp" 
+        src="/scomrade.png" 
         alt="Comrade Logo" 
-        className="h-8 w-auto object-contain"
+        className={`${sizeClass} w-auto object-contain`}
       />
-      <span className="text-xl font-bold text-foreground">Comrade</span>
     </div>
   );
 };

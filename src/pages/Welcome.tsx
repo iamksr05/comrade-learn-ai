@@ -1,26 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Logo } from "@/components/Logo";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Welcome = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
-  // Check if user is already logged in
+  // Redirect if already logged in
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
+    if (!loading && user) {
       navigate("/dashboard");
     }
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="text-center space-y-8 max-w-md">
-        <div className="flex justify-center">
-          <div className="p-6 bg-primary/10 rounded-full">
-            <Sparkles className="w-16 h-16 text-primary" />
-          </div>
+      <div className="text-center space-y-6 max-w-md">
+        <div className="flex justify-center pb-2">
+          <Logo className="justify-center" size="large" />
         </div>
         
         <div className="space-y-4">

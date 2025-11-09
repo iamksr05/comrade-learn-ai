@@ -29,11 +29,14 @@ import {
   Sparkles
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 const Settings = () => {
   const navigate = useNavigate();
   const { settings, updateSettings, speakText } = useTheme();
+  const { signOut, updateProfile } = useAuth();
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -41,13 +44,22 @@ const Settings = () => {
     confirmPassword: "",
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Settings are already saved via updateSettings when toggled
-    toast.success("Settings saved successfully!");
-    // Navigate back to dashboard after a short delay to show the toast
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 500);
+    // Also sync with Supabase
+    try {
+      await updateProfile({ settings });
+      toast.success("Settings saved successfully!");
+      // Navigate back to dashboard after a short delay to show the toast
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+    } catch (error) {
+      toast.error("Failed to save settings to cloud. Changes saved locally.");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+    }
   };
 
   const handleSettingChange = (key: keyof typeof settings, value: boolean) => {
@@ -61,14 +73,35 @@ const Settings = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("userData");
-    localStorage.removeItem("allCourses");
-    toast.success("Logged out successfully");
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      // Clear any local data first
+      localStorage.removeItem("allCourses");
+      localStorage.removeItem("userData");
+      
+      // Sign out from Supabase - this will trigger auth state change
+      await signOut();
+      
+      // Show success message
+      toast.success("Logged out successfully");
+      
+      // Navigate to home page after a brief delay to ensure state is cleared
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 300);
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if there's an error, clear local data and navigate
+      localStorage.removeItem("allCourses");
+      localStorage.removeItem("userData");
+      toast.error("Error during logout, but you've been signed out");
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 300);
+    }
   };
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (!passwordData.newPassword || !passwordData.confirmPassword) {
       toast.error("Please fill in all password fields");
       return;
@@ -84,15 +117,27 @@ const Settings = () => {
       return;
     }
 
-    // In a localStorage-only app, we can't really change passwords
-    // Just show a success message
-    toast.success("Password changed successfully (stored locally)");
-    setChangePasswordOpen(false);
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: passwordData.newPassword,
+      });
+
+      if (error) {
+        toast.error(error.message || "Failed to change password");
+        return;
+      }
+
+      toast.success("Password changed successfully");
+      setChangePasswordOpen(false);
+      setPasswordData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    } catch (error: any) {
+      console.error("Error changing password:", error);
+      toast.error("Failed to change password. Please try again.");
+    }
   };
 
   return (
