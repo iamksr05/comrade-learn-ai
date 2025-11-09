@@ -9,8 +9,8 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Light mode theme using the new color palette */
-    /* Background: Light cream color */
-    --background: 45 20% 97%;
+    /* Background: Light purple/lavender #F1E6FC (hsl(270, 87%, 95%)) */
+    --background: 270 87% 95%;
     --foreground: 231 90% 15%;
 
     /* Card: Slightly off-white cream */
@@ -56,8 +56,8 @@ All colors MUST be HSL.
     --info: 211 100% 44%;
     --info-foreground: 0 0% 100%;
 
-    /* Sidebar: Light cream */
-    --sidebar-background: 45 20% 97%;
+    /* Sidebar: Light purple/lavender #F1E6FC */
+    --sidebar-background: 270 87% 95%;
     --sidebar-foreground: 231 90% 15%;
     --sidebar-primary: 265 100% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -141,30 +141,19 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     transition: background-color 0.3s ease, color 0.3s ease;
-    background-image: 
-      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.03) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.03) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.02) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.02) 0px, transparent 50%);
-    background-size: 100% 100%;
+    background-color: #F1E6FC;
+    background-image: none;
   }
 
   .dark body {
-    background-image: 
-      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.1) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.06) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.06) 0px, transparent 50%);
+    background-color: #F1E6FC;
+    background-image: none;
   }
 
   /* ADHD mode - calmer background */
   .adhd-mode body {
-    background-image: 
-      radial-gradient(at 0% 0%, hsl(200 50% 50% / 0.03) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(150 40% 50% / 0.02) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(200 50% 50% / 0.02) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(150 40% 50% / 0.03) 0px, transparent 50%);
-    background-size: 100% 100%;
+    background-color: #F1E6FC;
+    background-image: none;
   }
 
   /* Subtle watermark for Dashboard - ADHD/Dyslexia friendly */
@@ -570,8 +559,8 @@ All colors MUST be HSL.
 
 /* ADHD Theme - Calm, relaxing, minimal distractions */
 .theme-adhd {
-  /* Soft, calming blues and greens */
-  --background: 200 30% 96%;
+  /* Light purple/lavender background #F1E6FC */
+  --background: 270 87% 95%;
   --foreground: 210 20% 20%;
   
   --card: 200 25% 98%;
@@ -624,8 +613,8 @@ All colors MUST be HSL.
 
 /* Dyslexia Theme - High contrast, dyslexia-friendly */
 .theme-dyslexia {
-  /* High contrast colors */
-  --background: 0 0% 98%;
+  /* Light purple/lavender background #F1E6FC */
+  --background: 270 87% 95%;
   --foreground: 0 0% 10%;
   
   --card: 0 0% 100%;
@@ -693,8 +682,8 @@ All colors MUST be HSL.
 
 /* Hearing Theme - Visual-first, clear visual indicators */
 .theme-hearing {
-  /* Vibrant, clear colors for visual communication */
-  --background: 240 20% 97%;
+  /* Light purple/lavender background #F1E6FC */
+  --background: 270 87% 95%;
   --foreground: 240 30% 15%;
   
   --card: 0 0% 100%;
@@ -745,8 +734,8 @@ All colors MUST be HSL.
 
 /* Vision Theme - High contrast, screen reader friendly */
 .theme-vision {
-  /* Maximum contrast */
-  --background: 0 0% 100%;
+  /* Light purple/lavender background #F1E6FC */
+  --background: 270 87% 95%;
   --foreground: 0 0% 5%;
   
   --card: 0 0% 100%;
@@ -858,7 +847,7 @@ All colors MUST be HSL.
 
 /* High Contrast Mode */
 .high-contrast-mode {
-  --background: 0 0% 100%;
+  --background: 270 87% 95%;
   --foreground: 0 0% 0%;
   --card: 0 0% 100%;
   --card-foreground: 0 0% 0%;
@@ -884,7 +873,8 @@ All colors MUST be HSL.
 }
 
 .high-contrast-mode body {
-  background: hsl(var(--background));
+  background-color: #F1E6FC;
+  background-image: none;
   color: hsl(var(--foreground));
 }
 
@@ -969,7 +959,8 @@ All colors MUST be HSL.
 
 /* Combined modes */
 .high-contrast-mode.larger-font-mode {
-  /* Both modes work together */
+  /* Both modes work together - no additional styles needed */
+  color: inherit;
 }
 
 /* Ensure settings work with special ability themes */

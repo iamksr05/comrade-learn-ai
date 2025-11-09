@@ -67,7 +67,7 @@ const LearningModule = () => {
 
   if (!course) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <p>Course not found</p>
       </div>
     );

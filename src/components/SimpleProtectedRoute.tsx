@@ -5,7 +5,7 @@ interface SimpleProtectedRouteProps {
   children: React.ReactNode;
 }
 
-// Simple route protection using localStorage (for when Clerk is not configured)
+// Simple route protection using localStorage
 export const SimpleProtectedRoute = ({ children }: SimpleProtectedRouteProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 

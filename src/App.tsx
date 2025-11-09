@@ -3,12 +3,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ClerkProvider } from "@clerk/clerk-react";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { SimpleProtectedRoute } from "@/components/SimpleProtectedRoute";
 import Welcome from "./pages/Welcome";
-import ClerkWelcome from "./components/ClerkWelcome";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Onboarding from "./pages/Onboarding";
@@ -23,21 +20,8 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Get Clerk publishable key from environment variables
-const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-// Determine which route wrapper to use
-const RouteWrapper = clerkPublishableKey ? ProtectedRoute : SimpleProtectedRoute;
-const WelcomeComponent = clerkPublishableKey ? ClerkWelcome : Welcome;
-
 const App = () => {
-  // If Clerk key is missing, render app without Clerk (for development/testing)
-  if (!clerkPublishableKey) {
-    console.warn("⚠️ Missing Clerk Publishable Key. App will run without authentication.");
-    console.warn("Add VITE_CLERK_PUBLISHABLE_KEY to your .env file to enable authentication.");
-  }
-
-  const appContent = (
+  return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <TooltipProvider>
@@ -45,75 +29,71 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<WelcomeComponent />} />
-              {!clerkPublishableKey && (
-                <>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                </>
-              )}
+              <Route path="/" element={<Welcome />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route 
                 path="/onboarding" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <Onboarding />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/dashboard" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <Dashboard />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/hub" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <Hub />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/course-generator" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <CourseGenerator />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/learning/:id" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <LearningModule />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/ai-companion" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <AICompanion />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/settings" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <Settings />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               <Route 
                 path="/profile" 
                 element={
-                  <RouteWrapper>
+                  <SimpleProtectedRoute>
                     <Profile />
-                  </RouteWrapper>
+                  </SimpleProtectedRoute>
                 } 
               />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -124,17 +104,6 @@ const App = () => {
       </ThemeProvider>
     </QueryClientProvider>
   );
-
-  // Wrap with ClerkProvider only if key is available
-  if (clerkPublishableKey) {
-    return (
-      <ClerkProvider publishableKey={clerkPublishableKey}>
-        {appContent}
-      </ClerkProvider>
-    );
-  }
-
-  return appContent;
 };
 
 export default App;

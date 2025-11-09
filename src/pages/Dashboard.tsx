@@ -13,7 +13,7 @@ const Dashboard = () => {
   const { disability, speakText, settings } = useTheme();
   const [userName, setUserName] = useState("Student");
 
-  // Check if user is logged in (for simple auth without Clerk)
+  // Load user name from localStorage
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn !== "true") {
