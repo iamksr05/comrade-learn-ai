@@ -13,6 +13,7 @@ import CourseGenerator from "./pages/CourseGenerator";
 import LearningModule from "./pages/LearningModule";
 import AICompanion from "./pages/AICompanion";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/learning/:id" element={<LearningModule />} />
             <Route path="/ai-companion" element={<AICompanion />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<Profile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

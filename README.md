@@ -1,13 +1,13 @@
 # Comrade Learn AI
 
-An AI-powered learning platform with accessibility features for users with different disabilities.
+An AI-powered learning platform with accessibility features for users with different special abilities.
 
 ## Features
 
 - 🤖 **Real AI Conversations**: Powered by OpenAI GPT-4o-mini
-- 🎯 **Disability-Aware Responses**: Customized AI responses for ADHD, Dyslexia, Vision, and Hearing impairments
+- 🎯 **Special Ability-Aware Responses**: Customized AI responses for ADHD, Dyslexia, Vision, and Hearing special abilities
 - 👋 **Sign Language Support**: Sign language input and output for deaf/hard of hearing users
-- 🎨 **Adaptive Theming**: UI adapts based on user's disability preferences
+- 🎨 **Adaptive Theming**: UI adapts based on user's special ability preferences
 - 📚 **Learning Companion**: Personalized AI tutor for programming and technology
 
 ## Quick Start
@@ -28,7 +28,7 @@ VITE_OPENAI_API_KEY=your_openai_api_key_here
 
 Get your API key from: https://platform.openai.com/api-keys
 
-**Note**: Without an API key, the app will use fallback responses (still disability-aware but less intelligent).
+**Note**: Without an API key, the app will use fallback responses (still special ability-aware but less intelligent).
 
 See [AI_API_SETUP.md](./AI_API_SETUP.md) for detailed setup instructions.
 

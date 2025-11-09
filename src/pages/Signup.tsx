@@ -15,6 +15,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { updateDisability } = useTheme();
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,33 +45,63 @@ const Signup = () => {
     {
       type: "vision" as DisabilityType,
       icon: EyeOff,
-      title: "Blind/Low Vision",
+      title: "Low Vision",
       description: "Screen reader compatible and high contrast mode",
     },
-    {
-      type: "none" as DisabilityType,
-      icon: Eye,
-      title: "None of the above",
-      description: "Standard learning experience",
-    },
+    
   ];
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === 1) {
       if (!formData.name || !formData.email || !formData.password) {
         toast.error("Please fill in all fields");
         return;
       }
+      
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        toast.error("Please enter a valid email address");
+        return;
+      }
+      
+      // Validate password length
+      if (formData.password.length < 6) {
+        toast.error("Password must be at least 6 characters long");
+        return;
+      }
+      
       setStep(2);
     } else if (step === 2) {
       if (!formData.disability) {
-        toast.error("Please select your learning preference");
+        toast.error("Please select your special ability");
         return;
       }
-      // Save to localStorage (mock authentication)
-      localStorage.setItem("comrade_user", JSON.stringify(formData));
-      // Ensure theme is applied with the saved disability
+      
+      // Save user data to localStorage
+      setIsLoading(true);
+      
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        disability: formData.disability,
+        settings: {
+          notifications: true,
+          systemUpdates: false,
+          highContrast: false,
+          textToSpeech: false,
+          largerFont: false,
+        },
+      };
+      
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("isLoggedIn", "true");
+      
+      setIsLoading(false);
+
+      // Ensure theme is applied with the saved special ability
       updateDisability(formData.disability);
+      
       toast.success("Account created successfully!");
       navigate("/onboarding");
     }
@@ -138,7 +169,7 @@ const Signup = () => {
         {step === 2 && (
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Choose your primary experience</h2>
+              <h2 className="text-3xl font-bold mb-2">Choose your special ability</h2>
               <p className="text-muted-foreground">
                 This helps us customize the interface to your needs
               </p>
@@ -164,11 +195,11 @@ const Signup = () => {
         )}
 
         <div className="flex justify-between mt-12">
-          <Button variant="outline" size="lg" onClick={handleBack} disabled={step === 1}>
+          <Button variant="outline" size="lg" onClick={handleBack} disabled={step === 1 || isLoading}>
             Back
           </Button>
-          <Button size="lg" onClick={handleNext}>
-            {step === 2 ? "Complete Setup" : "Next"}
+          <Button size="lg" onClick={handleNext} disabled={isLoading}>
+            {isLoading ? "Creating Account..." : step === 2 ? "Complete Setup" : "Next"}
           </Button>
         </div>
       </div>

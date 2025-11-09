@@ -251,12 +251,25 @@ export function SignLanguageInput({ onSignLanguageDetected, onTextInput }: SignL
       setCameraError("");
       setIsProcessing(false);
 
+      // Wait for video to be ready before initializing recognizer
+      if (videoRef.current && videoRef.current.readyState < 2) {
+        await new Promise<void>((resolve) => {
+          const onLoadedMetadata = () => {
+            videoRef.current?.removeEventListener('loadedmetadata', onLoadedMetadata);
+            resolve();
+          };
+          videoRef.current?.addEventListener('loadedmetadata', onLoadedMetadata);
+          // Timeout fallback
+          setTimeout(resolve, 2000);
+        });
+      }
+
       // initialize recognizer if it has initialize(video, canvas, callback)
       try {
-        if (recognizerRef.current && typeof recognizerRef.current.initialize === "function") {
+        if (recognizerRef.current && videoRef.current && canvasRef.current && typeof recognizerRef.current.initialize === "function") {
           // call initialize but be defensive
           await Promise.resolve(
-            recognizerRef.current.initialize?.(videoRef.current, canvasRef.current, (res: any) => {
+            recognizerRef.current.initialize(videoRef.current, canvasRef.current, (res: any) => {
               // some recognizers may call back with results — we still prefer our loop, but digest these if present
               try {
                 if (!res) return;
@@ -271,6 +284,7 @@ export function SignLanguageInput({ onSignLanguageDetected, onTextInput }: SignL
         }
       } catch (initErr) {
         console.warn("Recognizer initialization failed:", initErr);
+        setCameraError("Failed to initialize sign language recognition. Please try again.");
       }
 
       // start recognition loop

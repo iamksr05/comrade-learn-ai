@@ -33,11 +33,11 @@ const getOpenAIClient = (): OpenAI | null => {
 };
 
 /**
- * AI Response Adapter - Adapts AI responses based on user's disability
+ * AI Response Adapter - Adapts AI responses based on user's special ability
  */
 export class AIAdapter {
   /**
-   * Get system prompt based on disability type
+   * Get system prompt based on special ability type
    */
   static getSystemPrompt(disability: DisabilityType): string {
     switch (disability) {
@@ -114,7 +114,7 @@ Remember: Help users learn effectively and build confidence.`;
   }
 
   /**
-   * Format response based on disability type
+   * Format response based on special ability type
    */
   static formatResponse(content: string, disability: DisabilityType): string {
     switch (disability) {
@@ -264,7 +264,7 @@ Remember: Help users learn effectively and build confidence.`;
   }
 
   /**
-   * Generate a disability-aware response using OpenAI API
+   * Generate a special ability-aware response using OpenAI API
    */
   static async generateResponse(config: AIPromptConfig): Promise<string> {
     const { disability, userMessage, conversationHistory = [] } = config;
@@ -311,7 +311,7 @@ Remember: Help users learn effectively and build confidence.`;
 
       let response = completion.choices[0]?.message?.content || "I apologize, but I couldn't generate a response. Please try again.";
 
-      // Format the response based on disability
+      // Format the response based on special ability
       response = this.formatResponse(response, disability);
 
       return response;

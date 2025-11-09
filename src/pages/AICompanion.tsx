@@ -9,6 +9,8 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { AIAdapter, type AIMessage } from "@/utils/aiAdapter";
 import { SignLanguageInput } from "@/components/SignLanguageInput";
 import { SignLanguageOutput } from "@/components/SignLanguageOutput";
+import { getAICompanionUrl } from "@/utils/aiCompanionUrls";
+import { toast } from "sonner";
 
 interface SignLanguageResponse {
   transcript: string;
@@ -23,18 +25,43 @@ const AICompanion = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [signLanguageResponse, setSignLanguageResponse] = useState<SignLanguageResponse | null>(null);
-  const [isAIConnected, setIsAIConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const speechSynthesis = typeof window !== "undefined" ? window.speechSynthesis : null;
   const hasInitialized = useRef(false);
+  const speechUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const hasRedirected = useRef(false);
 
-  // Check if AI API is configured
+  // Redirect to external AI Companion if special ability requires it (ADHD or Dyslexia)
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    setIsAIConnected(!!apiKey);
-  }, []);
+    // Only redirect once and only if there's an external URL
+    if (!hasRedirected.current) {
+      const externalUrl = getAICompanionUrl(disability);
+      if (externalUrl && (disability === "adhd" || disability === "dyslexia")) {
+        hasRedirected.current = true;
+        window.location.href = externalUrl;
+        return;
+      }
+    }
+  }, [disability]);
 
-  // Initialize with disability-aware greeting (only on mount)
+  // Early return if redirecting (prevent rendering)
+  if (hasRedirected.current && (disability === "adhd" || disability === "dyslexia")) {
+    return null;
+  }
+
+  // Cleanup speech synthesis on unmount
+  useEffect(() => {
+    return () => {
+      if (speechSynthesis) {
+        speechSynthesis.cancel();
+      }
+      if (speechUtteranceRef.current) {
+        speechUtteranceRef.current = null;
+      }
+    };
+  }, [speechSynthesis]);
+
+  // Initialize with special ability-aware greeting (only on mount)
   useEffect(() => {
     if (!hasInitialized.current) {
       const greeting = AIAdapter.generateContextualResponse("hello", disability);
@@ -65,16 +92,20 @@ const AICompanion = () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: AIMessage = { role: "user", content: input.trim() };
-    setMessages((prev) => [...prev, userMessage]);
+    const userInput = input.trim();
     setInput("");
     setIsLoading(true);
 
+    // Update messages with user message immediately
+    setMessages((prev) => [...prev, userMessage]);
+
     try {
-      // Generate disability-aware response
+      // Generate special ability-aware response with updated conversation history
+      // Use functional update to get the latest messages state
       const response = await AIAdapter.generateResponse({
         disability,
-        userMessage: userMessage.content,
-        conversationHistory: messages,
+        userMessage: userInput,
+        conversationHistory: [...messages, userMessage], // Use updated messages that include the current user message
       });
 
       setMessages((prev) => [
@@ -83,13 +114,18 @@ const AICompanion = () => {
       ]);
     } catch (error) {
       console.error("Error generating response:", error);
+      const errorMessage = error instanceof Error 
+        ? `I apologize, but I encountered an error: ${error.message}. Please try again.`
+        : "I apologize, but I'm having trouble processing your request right now. Please try again.";
+      
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "I apologize, but I'm having trouble processing your request right now. Please try again.",
+          content: errorMessage,
         },
       ]);
+      toast.error("Failed to generate response. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -97,74 +133,171 @@ const AICompanion = () => {
 
   const handleTextToSpeech = (text: string) => {
     if (!speechSynthesis) {
-      alert("Text-to-speech is not supported in your browser.");
+      toast.error("Text-to-speech is not supported in your browser.");
       return;
     }
 
     // Cancel any ongoing speech
     speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Configure for better speech (especially for dyslexia)
-    utterance.rate = disability === "dyslexia" ? 0.8 : 1.0; // Slower for dyslexia
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-    
-    // Try to use a more natural voice
-    const voices = speechSynthesis.getVoices();
-    const preferredVoice = voices.find(
-      (voice) => voice.name.includes("Google") || voice.name.includes("Samantha")
-    );
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
+    if (speechUtteranceRef.current) {
+      speechUtteranceRef.current = null;
     }
 
-    speechSynthesis.speak(utterance);
+    // Clean text: remove markdown, emojis, and extra whitespace
+    const cleanText = text
+      .replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.+?)\*/g, '$1') // Remove italic
+      .replace(/[💡✅❌📝🎯✨🌟🚀💪📚🎓🤖👋🏠⚙️👤🔍📖🤟👀📥📤💬👤🤖]/g, '') // Remove emojis
+      .replace(/━━━━━━━━━━━━━━━━/g, '') // Remove separators
+      .replace(/\n{3,}/g, '\n\n') // Normalize multiple newlines
+      .trim();
+
+    if (!cleanText) {
+      toast.error("No text to speak.");
+      return;
+    }
+
+    // Wait for voices to be loaded if needed
+    const speakWithVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      speechUtteranceRef.current = utterance;
+      
+      // Configure for better speech (especially for dyslexia)
+      utterance.rate = disability === "dyslexia" ? 0.8 : 1.0; // Slower for dyslexia
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      // Try to use a more natural voice
+      const preferredVoice = voices.find(
+        (voice) => voice.name.includes("Google") || voice.name.includes("Samantha") || voice.name.includes("Karen")
+      ) || voices.find(voice => voice.lang.startsWith("en"));
+      
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      // Handle speech end and errors
+      utterance.onend = () => {
+        speechUtteranceRef.current = null;
+      };
+
+      utterance.onerror = (error) => {
+        console.error("Speech synthesis error:", error);
+        speechUtteranceRef.current = null;
+        toast.error("Error during text-to-speech playback.");
+      };
+
+      try {
+        speechSynthesis.speak(utterance);
+      } catch (error) {
+        console.error("Error starting speech:", error);
+        toast.error("Failed to start text-to-speech.");
+        speechUtteranceRef.current = null;
+      }
+    };
+
+    // Check if voices are loaded
+    const voices = speechSynthesis.getVoices();
+    if (voices.length === 0) {
+      // Wait for voices to load
+      speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.onvoiceschanged = null; // Remove handler after first call
+        speakWithVoice();
+      };
+      // Fallback: try after a short delay
+      setTimeout(() => {
+        if (speechSynthesis.getVoices().length > 0) {
+          speakWithVoice();
+        } else {
+          // Still no voices, try anyway
+          speakWithVoice();
+        }
+      }, 100);
+    } else {
+      speakWithVoice();
+    }
   };
 
   const handleSignLanguageInput = async (text: string) => {
+    if (!text.trim()) {
+      toast.error("Please provide input via sign language or text");
+      return;
+    }
+
+    if (isLoading) {
+      toast.warning("Please wait for the current request to complete.");
+      return;
+    }
+
     setIsLoading(true);
     setSignLanguageResponse(null);
 
+    // Add user message to history
+    const userMessage: AIMessage = { role: "user", content: text.trim() };
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+
     try {
-      // Generate disability-aware response
+      // Generate special ability-aware response (optimized for hearing-impaired users - visual-first)
       const response = await AIAdapter.generateResponse({
-        disability,
-        userMessage: text,
-        conversationHistory: messages,
+        disability: "hearing", // Force hearing mode for visual-first responses
+        userMessage: text.trim(),
+        conversationHistory: updatedMessages, // Use updated messages that include the current user message
       });
 
-      // Create sign language response with transcript and summary
-      // Format transcript to be clear and ASL-friendly
-      const cleanResponse = response.replace(/━━━━━━━━━━━━━━━━/g, '').replace(/💡|✅|❌|📝/g, '').trim();
-      const transcript = `Hello! I'm Comrade AI, your learning companion. I've received your message and translated it into American Sign Language (ASL) in the video above. ${cleanResponse}`;
-      
-      // Generate simplified summary (first sentence or first 80 characters)
-      const firstLine = cleanResponse.split('\n\n')[0] || cleanResponse.split('.')[0];
-      const simplifiedSummary = firstLine.length > 100 
-        ? firstLine.substring(0, 100).trim() + "..."
-        : firstLine.trim() || "Hi, I'm Comrade AI. The video shows your message in sign language.";
+      // Clean response for better readability
+      const cleanResponse = response
+        .replace(/━━━━━━━━━━━━━━━━/g, '')
+        .replace(/💡|✅|❌|📝|🎯|✨|🌟|🚀|💪|📚|🎓|🤖|👋|🏠|⚙️|👤|🔍|📖/g, '')
+        .replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
+        .replace(/\*(.+?)\*/g, '$1') // Remove italic
+        .trim();
 
+      // Create full transcript with context
+      const transcript = `${cleanResponse}`;
+      
+      // Generate simplified summary (first 2 sentences or first 150 characters)
+      const sentences = cleanResponse.split(/[.!?]+/).filter(s => s.trim().length > 0);
+      const simplifiedSummary = sentences.length > 0
+        ? (sentences.slice(0, 2).join('. ') + (sentences.length > 2 ? '...' : '')).trim()
+        : cleanResponse.substring(0, 150).trim() + (cleanResponse.length > 150 ? '...' : '');
+
+      // Store the response
       setSignLanguageResponse({
         transcript,
         simplifiedSummary,
-        // In production, this would be a generated ASL video URL
-        // videoUrl: await generateASLVideo(response)
+        // Note: In production, videoUrl would be generated from text-to-ASL service
+        // For now, we'll use a placeholder that indicates ASL translation
+        videoUrl: undefined, // Will be handled by SignLanguageOutput component
       });
 
-      // Also add to messages for history
+      // Also add assistant response to messages for history
       setMessages((prev) => [
         ...prev,
-        { role: "user", content: text },
-        { role: "assistant", content: response },
+        { role: "assistant", content: cleanResponse },
       ]);
+
+      toast.success("Response generated! View in sign language and text below.");
     } catch (error) {
       console.error("Error generating response:", error);
+      const errorMessage = error instanceof Error 
+        ? `I apologize, but I encountered an error: ${error.message}. Please try again.`
+        : "I apologize, but I'm having trouble processing your request right now. Please try again.";
+      
       setSignLanguageResponse({
-        transcript: "I apologize, but I'm having trouble processing your request right now. Please try again.",
+        transcript: errorMessage,
         simplifiedSummary: "Error processing request. Please try again.",
       });
+      
+      // Add error to messages
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: errorMessage },
+      ]);
+      
+      toast.error("Failed to generate response. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +307,7 @@ const AICompanion = () => {
   if (disability === "hearing") {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border bg-card">
+        <header className="border-b-2 border-border bg-card sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <Logo />
@@ -182,11 +315,11 @@ const AICompanion = () => {
                 <Button variant="ghost" size="icon" onClick={() => navigate("/settings")}>
                   <Settings className="w-5 h-5" />
                 </Button>
-                <Button variant="ghost" size="icon" onClick={() => navigate("/settings")}>
+                <Button variant="ghost" size="icon" onClick={() => navigate("/profile")}>
                   <User className="w-5 h-5" />
                 </Button>
                 <Button variant="ghost" onClick={() => navigate("/hub")}>
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                  <ArrowLeft className="w-4 h-4 mr-2" /> Back to Hub
                 </Button>
               </div>
             </div>
@@ -194,71 +327,302 @@ const AICompanion = () => {
         </header>
 
         <main className="container mx-auto px-4 py-8">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto space-y-6">
+            {/* Header */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <h1 className="text-3xl font-bold">AI Learning Companion</h1>
-                {isAIConnected ? (
-                  <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span>AI Connected</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                    <span>Using Fallback Mode</span>
-                  </div>
-                )}
+                <h1 className="text-4xl font-bold">🤟 AI Learning Companion</h1>
               </div>
-              <p className="text-muted-foreground">
+              <p className="text-xl text-muted-foreground">
                 👀 Sign language input and output • Visual-first communication
               </p>
-              {!isAIConnected && (
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                  <p className="text-sm text-amber-800 dark:text-amber-200">
-                    ⚠️ <strong>AI API not configured.</strong> Add your OpenAI API key to <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">.env</code> file for real AI conversations. See <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">AI_API_SETUP.md</code> for instructions.
-                  </p>
-                </div>
-              )}
+              <p className="text-sm text-muted-foreground mt-2">
+                Use sign language or type your message • Get responses in both ASL video and text
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Your Input Panel */}
-              <Card className="p-6">
-                <h2 className="text-xl font-semibold mb-4">Your Input</h2>
+            {/* Input Section */}
+            <Card className="p-6 border-2 border-border">
+              <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                📥 Your Input
+              </h2>
+              <div className="w-full">
                 <SignLanguageInput
                   onSignLanguageDetected={handleSignLanguageInput}
                   onTextInput={handleSignLanguageInput}
                 />
-              </Card>
+              </div>
+            </Card>
 
-              {/* AI Response Panel */}
-              <Card className="p-6">
-                <h2 className="text-xl font-semibold mb-4">AI Response</h2>
-                {isLoading ? (
-                  <div className="flex items-center justify-center h-[500px]">
-                    <div className="text-center">
-                      <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-primary" />
-                      <p className="text-muted-foreground">Processing your request...</p>
-                      <p className="text-sm text-muted-foreground mt-2">Generating sign language response...</p>
+            {/* Response Section */}
+            <Card className="p-6 border-2 border-border">
+              <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                📤 AI Response
+              </h2>
+              {isLoading ? (
+                <div className="flex items-center justify-center h-[400px]">
+                  <div className="text-center space-y-4">
+                    <Loader2 className="w-16 h-16 animate-spin mx-auto text-primary" />
+                    <div className="space-y-2">
+                      <p className="text-lg font-medium text-foreground">Processing your request...</p>
+                      <p className="text-sm text-muted-foreground">Generating sign language response...</p>
+                      <p className="text-xs text-muted-foreground">This may take a few seconds</p>
                     </div>
                   </div>
-                ) : signLanguageResponse ? (
+                </div>
+              ) : signLanguageResponse ? (
+                <div className="space-y-6">
                   <SignLanguageOutput
                     transcript={signLanguageResponse.transcript}
                     simplifiedSummary={signLanguageResponse.simplifiedSummary}
                     videoUrl={signLanguageResponse.videoUrl}
                   />
+                  
+                  {/* Conversation History */}
+                  {messages.length > 0 && (
+                    <div className="mt-6 pt-6 border-t border-border">
+                      <h3 className="text-lg font-semibold mb-4">💬 Conversation History</h3>
+                      <div className="space-y-4 max-h-[300px] overflow-y-auto">
+                        {messages.map((message, index) => (
+                          <div
+                            key={index}
+                            className={`p-4 rounded-lg ${
+                              message.role === "user"
+                                ? "bg-primary/10 border border-primary/20"
+                                : "bg-secondary border border-border"
+                            }`}
+                          >
+                            <div className="flex items-start gap-3">
+                              <span className="font-semibold text-sm">
+                                {message.role === "user" ? "👤 You:" : "🤖 AI:"}
+                              </span>
+                              <p className="flex-1 text-sm whitespace-pre-wrap">{message.content}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+                  <div className="text-center space-y-4">
+                    <div className="text-6xl mb-4">👋</div>
+                    <p className="text-2xl font-semibold">Ready to help!</p>
+                    <p className="text-lg">Type your message or use sign language to get started.</p>
+                    <p className="text-sm">You'll receive responses in both sign language and text format.</p>
+                  </div>
+                </div>
+              )}
+            </Card>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Dyslexia-optimized interface
+  if (disability === "dyslexia") {
+    return (
+      <div className="min-h-screen bg-background dyslexia-chat-mode">
+        <header className="border-b-2 border-border bg-card">
+          <div className="container mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
+              <Logo />
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate("/hub")}
+                className="text-lg px-6 py-6 h-auto"
+                style={{
+                  fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                <ArrowLeft className="w-5 h-5 mr-3" /> Back to Hub
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        <main className="container mx-auto px-6 py-8">
+          <div className="max-w-5xl mx-auto">
+            {/* Header Section - Large and Clear */}
+            <div className="mb-8 space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <h1 
+                  className="text-4xl md:text-5xl font-bold"
+                  style={{
+                    fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                    letterSpacing: "0.08em",
+                    lineHeight: "1.4",
+                  }}
+                >
+                  📖 AI Learning Companion
+                </h1>
+              </div>
+              <p 
+                className="text-xl text-muted-foreground"
+                style={{
+                  fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                  letterSpacing: "0.05em",
+                  lineHeight: "1.8",
+                }}
+              >
+                ✨ Easy-to-read responses for everyone
+              </p>
+              <p 
+                className="text-lg text-muted-foreground"
+                style={{
+                  fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                  letterSpacing: "0.05em",
+                  lineHeight: "1.8",
+                }}
+              >
+                🎯 Optimized for dyslexia-friendly reading
+              </p>
+            </div>
+
+            {/* Chat Container - Large and Spacious */}
+            <Card className="h-[700px] flex flex-col border-2 border-border" style={{ fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif" }}>
+              <div className="flex-1 overflow-y-auto p-8 space-y-6">
+                {messages.length === 0 ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-center space-y-4">
+                      <p 
+                        className="text-2xl text-muted-foreground"
+                        style={{
+                          letterSpacing: "0.05em",
+                          lineHeight: "1.8",
+                        }}
+                      >
+                        👋 Hello! Ready to learn?
+                      </p>
+                      <p 
+                        className="text-xl text-muted-foreground"
+                        style={{
+                          letterSpacing: "0.05em",
+                          lineHeight: "1.8",
+                        }}
+                      >
+                        Start a conversation to begin!
+                      </p>
+                    </div>
+                  </div>
                 ) : (
-                  <div className="flex items-center justify-center h-[500px] text-muted-foreground">
-                    <div className="text-center">
-                      <p className="text-lg mb-2">👋 Ready to help!</p>
-                      <p>Type your message or use sign language to get started.</p>
+                  messages.map((message, index) => (
+                    <div
+                      key={index}
+                      className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} fade-in`}
+                    >
+                      <div
+                        className={`max-w-[80%] p-6 rounded-3xl border-2 ${
+                          message.role === "user"
+                            ? "bg-primary text-primary-foreground border-primary rounded-tr-sm"
+                            : "bg-card text-foreground border-border rounded-tl-sm shadow-md"
+                        }`}
+                        style={{
+                          letterSpacing: "0.05em",
+                          lineHeight: "1.8",
+                          wordSpacing: "0.1em",
+                        }}
+                      >
+                        <div 
+                          className="whitespace-pre-wrap text-lg"
+                          style={{
+                            fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                            letterSpacing: "0.05em",
+                            lineHeight: "1.8",
+                            wordSpacing: "0.1em",
+                          }}
+                        >
+                          {message.content}
+                        </div>
+                        {message.role === "assistant" && (
+                          <div className="flex gap-3 mt-4">
+                            <Button
+                              variant="outline"
+                              size="lg"
+                              className="h-12 px-6 text-base border-2"
+                              onClick={() => handleTextToSpeech(message.content)}
+                              style={{
+                                fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                                letterSpacing: "0.05em",
+                              }}
+                            >
+                              <Volume2 className="w-5 h-5 mr-2" />
+                              🔊 Read Aloud
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-card text-foreground rounded-3xl rounded-tl-sm p-6 border-2 border-border shadow-md">
+                      <div className="flex items-center gap-4">
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                        <span 
+                          className="text-lg"
+                          style={{
+                            fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                            letterSpacing: "0.05em",
+                          }}
+                        >
+                          Thinking...
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
-              </Card>
-            </div>
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input Area - Large and Clear */}
+              <div className="border-t-2 border-border p-6 bg-muted/30">
+                <div className="flex gap-4">
+                  <Input
+                    placeholder="Type your question here... (Ask anything you want to learn!)"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                      }
+                    }}
+                    className="flex-1 text-lg h-14 px-6 border-2"
+                    style={{
+                      fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                      letterSpacing: "0.05em",
+                      fontSize: "1.125rem",
+                    }}
+                    disabled={isLoading}
+                  />
+                  <Button 
+                    size="lg"
+                    onClick={handleSend}
+                    disabled={isLoading || !input.trim()}
+                    className="h-14 px-8 text-lg border-2"
+                    style={{
+                      fontFamily: "'Comic Sans MS', 'Trebuchet MS', sans-serif",
+                      letterSpacing: "0.05em",
+                      minWidth: "120px",
+                    }}
+                  >
+                    {isLoading ? (
+                      <Loader2 className="w-6 h-6 animate-spin" />
+                    ) : (
+                      <>
+                        <Send className="w-6 h-6 mr-2" />
+                        Send
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </Card>
           </div>
         </main>
       </div>
@@ -284,36 +648,16 @@ const AICompanion = () => {
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
               <h1 className="text-3xl font-bold">AI Learning Companion</h1>
-              {isAIConnected ? (
-                <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span>AI Connected</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                  <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                  <span>Using Fallback Mode</span>
-                </div>
-              )}
             </div>
             <p className="text-muted-foreground">
               {disability === "adhd" && "🎯 Short, focused answers to keep you engaged"}
-              {disability === "dyslexia" && "📖 Clear, simple explanations to help you learn"}
               {disability === "vision" && "🔍 Detailed, descriptive responses for screen readers"}
               {(!disability || disability === "none") && "Ask questions, get explanations, or chat about your learning"}
             </p>
-            {disability && disability !== "none" && (
+            {disability && disability !== "none" && disability !== "dyslexia" && (
               <div className="mt-2 text-sm text-muted-foreground">
                 💡 Responses optimized for {disability === "adhd" && "ADHD"}
-                {disability === "dyslexia" && "Dyslexia"}
                 {disability === "vision" && "Vision Impairment"} users
-              </div>
-            )}
-            {!isAIConnected && (
-              <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                <p className="text-sm text-amber-800 dark:text-amber-200">
-                  ⚠️ <strong>AI API not configured.</strong> Add your OpenAI API key to <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">.env</code> file for real AI conversations. See <code className="bg-amber-100 dark:bg-amber-900/30 px-1 rounded">AI_API_SETUP.md</code> for instructions.
-                </p>
               </div>
             )}
           </div>
@@ -336,29 +680,21 @@ const AICompanion = () => {
                           ? "bg-primary text-primary-foreground rounded-tr-none"
                           : "bg-secondary text-foreground rounded-tl-none"
                       } ${
-                        disability === "dyslexia" ? "leading-relaxed" : ""
-                      } ${
                         disability === "vision" ? "text-base" : ""
                       }`}
                     >
                       <div 
                         className={`whitespace-pre-wrap ${
-                          disability === "dyslexia" ? "text-base leading-7" : ""
-                        } ${
                           disability === "vision" ? "text-base" : ""
                         } ${
                           disability === "hearing" ? "font-medium" : ""
                         }`}
-                        style={{
-                          fontFamily: disability === "dyslexia" ? "'Comic Sans MS', 'Trebuchet MS', sans-serif" : "inherit",
-                          letterSpacing: disability === "dyslexia" ? "0.05em" : "inherit",
-                        }}
                       >
                         {message.content}
                       </div>
                       {message.role === "assistant" && (
                         <div className="flex gap-2 mt-3">
-                          {(disability === "dyslexia" || disability === "vision") && (
+                          {disability === "vision" && (
                             <Button
                               variant="ghost"
                               size="sm"
@@ -390,7 +726,6 @@ const AICompanion = () => {
                 <Input
                   placeholder={
                     disability === "adhd" ? "Ask me anything... 🎯" :
-                    disability === "dyslexia" ? "Type your question..." :
                     disability === "hearing" ? "Type your message... 👀" :
                     disability === "vision" ? "Type your question..." :
                     "Type your message..."
@@ -404,7 +739,7 @@ const AICompanion = () => {
                     }
                   }}
                   className={`flex-1 ${
-                    disability === "dyslexia" || disability === "vision" ? "text-base" : ""
+                    disability === "vision" ? "text-base" : ""
                   }`}
                   disabled={isLoading}
                 />

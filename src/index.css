@@ -9,28 +9,28 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Light mode theme using the new color palette */
-    /* Background: Light version with purple tint */
-    --background: 265 40% 98%;
+    /* Background: Light cream color */
+    --background: 45 20% 97%;
     --foreground: 231 90% 15%;
 
-    /* Card: Pure white with subtle purple tint */
-    --card: 0 0% 100%;
+    /* Card: Slightly off-white cream */
+    --card: 45 15% 99%;
     --card-foreground: 231 90% 15%;
 
-    /* Popover: White background */
-    --popover: 0 0% 100%;
+    /* Popover: Light cream background */
+    --popover: 45 15% 99%;
     --popover-foreground: 231 90% 15%;
 
     /* Primary: Electric Purple #A259FF */
     --primary: 265 100% 67%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Light purple tint */
-    --secondary: 265 30% 95%;
+    /* Secondary: Warm cream tint */
+    --secondary: 45 25% 96%;
     --secondary-foreground: 231 90% 15%;
 
-    /* Muted: Light purple-gray */
-    --muted: 265 20% 94%;
+    /* Muted: Soft cream-gray */
+    --muted: 45 20% 95%;
     --muted-foreground: 231 40% 45%;
 
     /* Accent: Royal Azure #006BDF */
@@ -41,9 +41,9 @@ All colors MUST be HSL.
     --destructive: 0 100% 71%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border: Light purple-gray */
-    --border: 265 20% 88%;
-    --input: 265 20% 88%;
+    /* Border: Warm cream-gray */
+    --border: 45 15% 85%;
+    --input: 45 15% 85%;
     --ring: 265 100% 67%;
 
     --radius: 0.75rem;
@@ -56,14 +56,14 @@ All colors MUST be HSL.
     --info: 211 100% 44%;
     --info-foreground: 0 0% 100%;
 
-    /* Sidebar: Light purple tint */
-    --sidebar-background: 265 35% 97%;
+    /* Sidebar: Light cream */
+    --sidebar-background: 45 20% 97%;
     --sidebar-foreground: 231 90% 15%;
     --sidebar-primary: 265 100% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 265 25% 93%;
+    --sidebar-accent: 45 25% 94%;
     --sidebar-accent-foreground: 231 90% 15%;
-    --sidebar-border: 265 20% 88%;
+    --sidebar-border: 45 15% 85%;
     --sidebar-ring: 265 100% 67%;
   }
 
@@ -142,10 +142,10 @@ All colors MUST be HSL.
     font-feature-settings: "rlig" 1, "calt" 1;
     transition: background-color 0.3s ease, color 0.3s ease;
     background-image: 
-      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.03) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.03) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, hsl(var(--primary) / 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(var(--accent) / 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(var(--primary) / 0.02) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.02) 0px, transparent 50%);
     background-size: 100% 100%;
   }
 
@@ -165,6 +165,135 @@ All colors MUST be HSL.
       radial-gradient(at 100% 100%, hsl(200 50% 50% / 0.02) 0px, transparent 50%),
       radial-gradient(at 0% 100%, hsl(150 40% 50% / 0.03) 0px, transparent 50%);
     background-size: 100% 100%;
+  }
+
+  /* Subtle watermark for Dashboard - ADHD/Dyslexia friendly */
+  .dashboard-watermark {
+    opacity: 0.015;
+    background-image: url('/comrade.webp');
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    background-position: center;
+    pointer-events: none;
+    filter: blur(0.5px);
+  }
+
+  /* Even more subtle for ADHD mode */
+  .adhd-mode .dashboard-watermark {
+    opacity: 0.008;
+    background-size: 500px 500px;
+    filter: blur(1px);
+  }
+
+  /* Even more subtle for Dyslexia mode */
+  .dyslexia-mode .dashboard-watermark {
+    opacity: 0.01;
+    background-size: 450px 450px;
+    filter: blur(0.8px);
+  }
+
+  /* Very subtle for Vision mode */
+  .vision-mode .dashboard-watermark {
+    opacity: 0.005;
+    filter: blur(1.5px);
+  }
+
+  /* Dyslexia Dashboard Mode - Optimized UI */
+  .dyslexia-dashboard-mode {
+    font-family: 'Comic Sans MS', 'Trebuchet MS', 'Arial', sans-serif;
+  }
+
+  .dyslexia-dashboard-mode * {
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+  }
+
+  .dyslexia-dashboard-mode h1,
+  .dyslexia-dashboard-mode h2,
+  .dyslexia-dashboard-mode h3 {
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .dyslexia-dashboard-mode p,
+  .dyslexia-dashboard-mode span,
+  .dyslexia-dashboard-mode div,
+  .dyslexia-dashboard-mode button {
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    word-spacing: 0.1em;
+  }
+
+  .dyslexia-dashboard-mode button {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    border: 2px solid hsl(var(--border));
+  }
+
+  .dyslexia-dashboard-mode .card {
+    border: 2px solid hsl(var(--border));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dyslexia-dashboard-mode *:focus {
+    outline: 3px solid hsl(var(--primary));
+    outline-offset: 3px;
+  }
+
+  /* Dyslexia Chat Mode - Optimized UI */
+  .dyslexia-chat-mode {
+    font-family: 'Comic Sans MS', 'Trebuchet MS', 'Arial', sans-serif;
+  }
+
+  .dyslexia-chat-mode * {
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+  }
+
+  .dyslexia-chat-mode h1,
+  .dyslexia-chat-mode h2,
+  .dyslexia-chat-mode h3 {
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .dyslexia-chat-mode p,
+  .dyslexia-chat-mode span,
+  .dyslexia-chat-mode div {
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    word-spacing: 0.1em;
+  }
+
+  .dyslexia-chat-mode button {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.05em;
+    border: 2px solid hsl(var(--border));
+  }
+
+  .dyslexia-chat-mode input,
+  .dyslexia-chat-mode textarea {
+    font-size: 1.125rem;
+    padding: 0.875rem;
+    min-height: 48px;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    border: 2px solid hsl(var(--border));
+  }
+
+  .dyslexia-chat-mode .card {
+    border: 2px solid hsl(var(--border));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dyslexia-chat-mode *:focus {
+    outline: 3px solid hsl(var(--primary));
+    outline-offset: 3px;
   }
 
   /* Enhanced scrollbar styling */
@@ -292,6 +421,9 @@ All colors MUST be HSL.
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
   }
 
   /* Animated gradient background */
@@ -433,7 +565,7 @@ All colors MUST be HSL.
 }
 
 /* ========================================
-   DISABILITY-SPECIFIC THEMES
+   SPECIAL ABILITY-SPECIFIC THEMES
    ======================================== */
 
 /* ADHD Theme - Calm, relaxing, minimal distractions */
@@ -718,4 +850,138 @@ All colors MUST be HSL.
 .theme-none {
   /* Uses default theme defined in :root - no custom overrides */
   color-scheme: light;
+}
+
+/* ========================================
+   ACCESSIBILITY SETTINGS
+   ======================================== */
+
+/* High Contrast Mode */
+.high-contrast-mode {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 240 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 95%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 20%;
+  --accent: 240 100% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  --ring: 240 100% 50%;
+  --success: 120 100% 30%;
+  --success-foreground: 0 0% 100%;
+  --info: 240 100% 50%;
+  --info-foreground: 0 0% 100%;
+}
+
+.high-contrast-mode body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.high-contrast-mode .card,
+.high-contrast-mode button,
+.high-contrast-mode input,
+.high-contrast-mode textarea,
+.high-contrast-mode select {
+  border: 2px solid hsl(var(--foreground)) !important;
+}
+
+.high-contrast-mode button:focus,
+.high-contrast-mode input:focus,
+.high-contrast-mode textarea:focus,
+.high-contrast-mode select:focus,
+.high-contrast-mode a:focus {
+  outline: 3px solid hsl(var(--primary)) !important;
+  outline-offset: 2px !important;
+}
+
+.high-contrast-mode a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+}
+
+/* Larger Font Mode */
+.larger-font-mode {
+  font-size: 120%;
+}
+
+.larger-font-mode body {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.larger-font-mode h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+
+.larger-font-mode h2 {
+  font-size: 2.4rem;
+  line-height: 1.3;
+}
+
+.larger-font-mode h3 {
+  font-size: 2.1rem;
+  line-height: 1.4;
+}
+
+.larger-font-mode h4 {
+  font-size: 1.8rem;
+  line-height: 1.5;
+}
+
+.larger-font-mode p,
+.larger-font-mode span,
+.larger-font-mode div,
+.larger-font-mode li {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.larger-font-mode button {
+  font-size: 1.2rem;
+  padding: 0.875rem 1.75rem;
+  min-height: 48px;
+}
+
+.larger-font-mode input,
+.larger-font-mode textarea,
+.larger-font-mode select {
+  font-size: 1.2rem;
+  padding: 0.875rem;
+  min-height: 48px;
+}
+
+.larger-font-mode .card {
+  padding: 1.5rem;
+}
+
+/* Combined modes */
+.high-contrast-mode.larger-font-mode {
+  /* Both modes work together */
+}
+
+/* Ensure settings work with special ability themes */
+.theme-adhd.high-contrast-mode,
+.theme-dyslexia.high-contrast-mode,
+.theme-hearing.high-contrast-mode,
+.theme-vision.high-contrast-mode {
+  /* High contrast takes precedence over theme colors */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --primary: 240 100% 50%;
+  --border: 0 0% 0%;
 }

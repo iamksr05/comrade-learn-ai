@@ -23,13 +23,23 @@ const Welcome = () => {
           </p>
         </div>
 
-        <Button
-          size="lg"
-          className="text-lg px-8 py-6 rounded-full"
-          onClick={() => navigate("/signup")}
-        >
-          Let's Get Started
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button
+            size="lg"
+            className="text-lg px-8 py-6 rounded-full"
+            onClick={() => navigate("/signup")}
+          >
+            Get Started
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            className="text-lg px-8 py-6 rounded-full"
+            onClick={() => navigate("/login")}
+          >
+            Sign In
+          </Button>
+        </div>
       </div>
     </div>
   );

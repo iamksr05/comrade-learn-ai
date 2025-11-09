@@ -39,7 +39,7 @@ npm run dev
 ## How It Works
 
 - **With API Key**: The app uses OpenAI's GPT-4o-mini model for real AI conversations
-- **Without API Key**: The app falls back to contextual responses (still disability-aware)
+- **Without API Key**: The app falls back to contextual responses (still special ability-aware)
 
 ## Security Note
 

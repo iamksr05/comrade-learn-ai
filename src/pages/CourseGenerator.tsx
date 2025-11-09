@@ -103,7 +103,7 @@ const CourseGenerator = () => {
 
           <div className="text-center text-sm text-muted-foreground">
             <p>
-              Your course will be tailored to your learning preferences and disability settings
+              Your course will be tailored to your learning preferences and special ability settings
             </p>
           </div>
         </div>

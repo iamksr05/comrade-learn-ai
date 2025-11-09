@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { DisabilityType } from "@/types/disability";
 
 /**
- * Hook to manage disability-based theme customization
- * Applies CSS classes and styles based on user's disability preference
+ * Hook to manage special ability-based theme customization
+ * Applies CSS classes and styles based on user's special ability preference
  */
 export function useDisabilityTheme() {
   const [disability, setDisability] = useState<DisabilityType>("none");
 
   useEffect(() => {
-    // Load user disability preference from localStorage
+    // Load user special ability preference from localStorage
     const user = localStorage.getItem("comrade_user");
     if (user) {
       try {
@@ -26,7 +26,7 @@ export function useDisabilityTheme() {
   }, []);
 
   const applyTheme = (disabilityType: DisabilityType) => {
-    // Remove all disability theme classes
+    // Remove all special ability theme classes
     document.documentElement.classList.remove(
       "theme-adhd",
       "theme-dyslexia",

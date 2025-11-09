@@ -1,43 +1,46 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { DisabilityType } from "@/types/disability";
 
+export interface AppSettings {
+  notifications: boolean;
+  systemUpdates: boolean;
+  highContrast: boolean;
+  textToSpeech: boolean;
+  largerFont: boolean;
+}
+
 interface ThemeContextType {
   disability: DisabilityType;
+  settings: AppSettings;
   updateDisability: (disability: DisabilityType) => void;
+  updateSettings: (settings: Partial<AppSettings>) => void;
+  speakText: (text: string) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const defaultSettings: AppSettings = {
+  notifications: true,
+  systemUpdates: false,
+  highContrast: false,
+  textToSpeech: false,
+  largerFont: false,
+};
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [disability, setDisability] = useState<DisabilityType>("none");
+  const [settings, setSettings] = useState<AppSettings>(defaultSettings);
+  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesis | null>(null);
 
   useEffect(() => {
-    // Load user disability preference from localStorage
-    const loadTheme = () => {
-      const user = localStorage.getItem("comrade_user");
-      if (user) {
-        try {
-          const userData = JSON.parse(user);
-          const userDisability = userData?.disability || "none";
-          setDisability(userDisability);
-          applyTheme(userDisability);
-        } catch (error) {
-          console.error("Error loading user preferences:", error);
-          applyTheme("none");
-        }
-      } else {
-        applyTheme("none");
-      }
-    };
-
-    loadTheme();
-
-    // Listen for storage changes (in case user updates in another tab)
-    window.addEventListener("storage", loadTheme);
-    return () => window.removeEventListener("storage", loadTheme);
+    // Initialize speech synthesis
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      setSpeechSynthesis(window.speechSynthesis);
+    }
   }, []);
 
-  const applyTheme = (disabilityType: DisabilityType) => {
+  // Define applyTheme and applySettings functions
+  const applyTheme = React.useCallback((disabilityType: DisabilityType) => {
     // Remove all disability theme classes
     document.documentElement.classList.remove(
       "theme-adhd",
@@ -74,32 +77,140 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       default:
         break;
     }
-  };
+  }, []);
+
+  const applySettings = React.useCallback((appSettings: AppSettings) => {
+    // Apply high contrast mode
+    if (appSettings.highContrast) {
+      document.documentElement.classList.add("high-contrast-mode");
+    } else {
+      document.documentElement.classList.remove("high-contrast-mode");
+    }
+
+    // Apply larger font mode
+    if (appSettings.largerFont) {
+      document.documentElement.classList.add("larger-font-mode");
+    } else {
+      document.documentElement.classList.remove("larger-font-mode");
+    }
+  }, []);
+
+  // Load preferences from localStorage
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        const userDisability = (parsed.disability as DisabilityType) || "none";
+        const userSettings = parsed.settings || defaultSettings;
+        
+        setDisability(userDisability);
+        setSettings(userSettings);
+        applyTheme(userDisability);
+        applySettings(userSettings);
+      } catch (error) {
+        console.error("Error loading user preferences:", error);
+        applyTheme("none");
+        applySettings(defaultSettings);
+      }
+    } else {
+      // No user data, use defaults
+      applyTheme("none");
+      applySettings(defaultSettings);
+    }
+  }, [applyTheme, applySettings]);
+
 
   const updateDisability = (newDisability: DisabilityType) => {
     setDisability(newDisability);
     applyTheme(newDisability);
     
     // Update localStorage
-    const user = localStorage.getItem("comrade_user");
-    if (user) {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
       try {
-        const userData = JSON.parse(user);
-        userData.disability = newDisability;
-        localStorage.setItem("comrade_user", JSON.stringify(userData));
+        const parsed = JSON.parse(userData);
+        parsed.disability = newDisability;
+        localStorage.setItem("userData", JSON.stringify(parsed));
       } catch (error) {
-        console.error("Error updating user preferences:", error);
+        console.error("Error updating disability:", error);
       }
-    } else {
-      // During signup, user might not exist yet, but we can still apply the theme
-      // The theme will be saved when the user completes signup
-      // For now, we store it in a temporary location or just apply it
-      // The theme will persist in the session
     }
   };
 
+  const updateSettings = (newSettings: Partial<AppSettings>) => {
+    const updatedSettings = { ...settings, ...newSettings };
+    setSettings(updatedSettings);
+    applySettings(updatedSettings);
+    
+    // Update localStorage
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        parsed.settings = updatedSettings;
+        localStorage.setItem("userData", JSON.stringify(parsed));
+      } catch (error) {
+        console.error("Error updating settings:", error);
+      }
+    }
+  };
+
+  const speakText = React.useCallback((text: string) => {
+    if (!settings.textToSpeech) {
+      return;
+    }
+
+    const synth = speechSynthesis || (typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null);
+    if (!synth) {
+      return;
+    }
+
+    // Cancel any ongoing speech
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    // Function to set voice (voices might not be loaded immediately)
+    const setVoice = () => {
+      const voices = synth.getVoices();
+      if (voices.length > 0) {
+        const preferredVoice = voices.find(
+          (voice) => voice.name.includes("Google") || voice.name.includes("Natural")
+        ) || voices.find((voice) => voice.lang.startsWith("en"));
+        
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+      }
+      synth.speak(utterance);
+    };
+
+    // Try to get voices immediately
+    const voices = synth.getVoices();
+    if (voices.length > 0) {
+      setVoice();
+    } else {
+      // Wait for voices to load
+      synth.onvoiceschanged = () => {
+        setVoice();
+        synth.onvoiceschanged = null;
+      };
+      // Fallback: speak after a short delay even if voices haven't loaded
+      setTimeout(() => {
+        if (synth.getVoices().length === 0) {
+          synth.speak(utterance);
+        }
+      }, 100);
+    }
+  }, [settings.textToSpeech, speechSynthesis]);
+
+
   return (
-    <ThemeContext.Provider value={{ disability, updateDisability }}>
+    <ThemeContext.Provider value={{ disability, settings, updateDisability, updateSettings, speakText }}>
       {children}
     </ThemeContext.Provider>
   );
