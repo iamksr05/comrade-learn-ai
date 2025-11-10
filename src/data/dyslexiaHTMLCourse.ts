@@ -1,20 +1,23 @@
 import { Course } from "@/types/disability";
 
 /**
- * CodeEase - 10-Day Dyslexia-Friendly HTML Programming Course
+ * CodeEase - 10-Day Dyslexia-Friendly HTML Course
  * Designed specifically for people with dyslexia with:
- * - Short, spaced-out sentences
- * - Visual cues and icons
- * - Color-coded content
- * - Text-to-speech support
- * - Step-by-step learning
+ * - Very short sentences (one idea per sentence)
+ * - Lots of whitespace between sections
+ * - Simple, everyday language
+ * - Clear visual examples
+ * - Step-by-step instructions
+ * - Breaking complex concepts into tiny pieces
+ * - Real-world analogies
+ * - Repetition of key concepts
  */
 export const createDyslexiaHTMLCourse = (): Course => {
   return {
     id: "codeease-html-dyslexia",
     language: "HTML",
     title: "CodeEase - HTML for Beginners (Dyslexia-Friendly)",
-    description: "Learn HTML step-by-step with visual cues, audio support, and AI tutor help. Designed specifically for dyslexia-friendly learning! 🎯",
+    description: "Learn HTML step-by-step with simple words, clear examples, and lots of space. Made easy for dyslexia-friendly learning! 🎯",
     duration: "10 days",
     difficulty: "beginner",
     progress: 0,
@@ -22,8 +25,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-1",
         day: 1,
-        title: "Day 1: Introduction to Computers & Coding",
-        description: "💡 What is coding? How computers understand instructions. Small interactive activity!",
+        title: "Day 1: What is HTML?",
+        description: "🌐 Learn what HTML is. See your first web page. Simple and easy!",
         duration: "15-20 min",
         completed: false,
         content: getDay1Content(),
@@ -31,8 +34,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-2",
         day: 2,
-        title: "Day 2: Understanding What a Programming Language Is",
-        description: "🧩 Visual explanation using blocks and code comparison. Learn about commands and syntax.",
+        title: "Day 2: Your First HTML Page",
+        description: "📄 Make your first web page. Learn the basic structure. Step by step!",
         duration: "15-20 min",
         completed: false,
         content: getDay2Content(),
@@ -40,8 +43,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-3",
         day: 3,
-        title: "Day 3: Printing and Displaying Text",
-        description: "📝 Learn print() command. Practice: print your favorite color, number, etc.",
+        title: "Day 3: Adding Text to Your Page",
+        description: "📝 Learn to add headings and paragraphs. Make words big or small!",
         duration: "15-20 min",
         completed: false,
         content: getDay3Content(),
@@ -49,8 +52,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-4",
         day: 4,
-        title: "Day 4: Variables with Real-Life Examples",
-        description: "📦 Compare to 'boxes that hold things'. Activities: store your name, age, favorite hobby.",
+        title: "Day 4: Making Lists",
+        description: "📋 Learn to make lists. Bullet points and numbered lists. Easy!",
         duration: "15-20 min",
         completed: false,
         content: getDay4Content(),
@@ -58,8 +61,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-5",
         day: 5,
-        title: "Day 5: Numbers and Math in Code",
-        description: "🔢 Simple addition, subtraction. Visual calculator game made with Python.",
+        title: "Day 5: Adding Links",
+        description: "🔗 Learn to add links. Click here to go there. Simple!",
         duration: "15-20 min",
         completed: false,
         content: getDay5Content(),
@@ -67,8 +70,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-6",
         day: 6,
-        title: "Day 6: Decision Making (If-Else)",
-        description: "🤔 Simple examples like 'If it's raining, take an umbrella.' Interactive quiz with choices.",
+        title: "Day 6: Adding Images",
+        description: "🖼️ Learn to add pictures. Show photos on your page. Fun!",
         duration: "15-20 min",
         completed: false,
         content: getDay6Content(),
@@ -76,8 +79,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-7",
         day: 7,
-        title: "Day 7: Loops Made Simple",
-        description: "🔄 Explain repetition using pictures (e.g., brushing teeth every day). Practice: repeat printing 'Hello' five times.",
+        title: "Day 7: Making Things Bold and Italic",
+        description: "✨ Learn to make text bold or italic. Change how words look!",
         duration: "15-20 min",
         completed: false,
         content: getDay7Content(),
@@ -85,8 +88,8 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-8",
         day: 8,
-        title: "Day 8: Combining What You Learned",
-        description: "🎯 Mini project: a simple chatbot that greets users.",
+        title: "Day 8: Adding Colors",
+        description: "🎨 Learn to change colors. Make your page colorful. Beautiful!",
         duration: "20-25 min",
         completed: false,
         content: getDay8Content(),
@@ -94,17 +97,17 @@ export const createDyslexiaHTMLCourse = (): Course => {
       {
         id: "day-9",
         day: 9,
-        title: "Day 9: Understanding Errors",
-        description: "💪 Teach them not to fear mistakes. Show examples of errors and fixes. AI explains errors in simple language.",
-        duration: "15-20 min",
+        title: "Day 9: Making Tables",
+        description: "📊 Learn to make tables. Organize information in rows and columns!",
+        duration: "20-25 min",
         completed: false,
         content: getDay9Content(),
       },
       {
         id: "day-10",
         day: 10,
-        title: "Day 10: Final Project & Celebration",
-        description: "🎉 Project: make a 'Fun Facts Generator.' AI helps step-by-step. Celebrate completion with certificate!",
+        title: "Day 10: Your First Complete Website",
+        description: "🎉 Build your own website. Put everything together. Celebrate!",
         duration: "25-30 min",
         completed: false,
         content: getDay10Content(),
@@ -114,1152 +117,1254 @@ export const createDyslexiaHTMLCourse = (): Course => {
 };
 
 function getDay1Content(): string {
-  return `# 🎯 Day 1: Introduction to Computers & Coding
+  return `# 🌐 Day 1: What is HTML?
 
-## 💡 What is Coding?
+## 🎯 Today You Will Learn
 
-Coding is like giving instructions to a computer.
+What HTML is.
 
-Think of it like talking to a robot friend.
+How it works.
 
-You tell the computer what to do.
+Why we use it.
 
-The computer follows your instructions.
+## 💡 What is HTML?
 
-## 🖥️ How Computers Understand Instructions
+HTML is a language.
 
-Computers understand special languages.
+It tells computers how to show web pages.
 
-These languages are like codes.
+HTML stands for:
+- H = Hyper
+- T = Text
+- M = Markup
+- L = Language
 
-We write these codes using words and symbols.
+## 🏠 Think of HTML Like a House
 
-The computer reads our code.
+A house has parts.
 
-Then it does what we asked.
+HTML has parts too.
 
-## 🎮 Small Interactive Activity
+**House parts:**
+- Walls
+- Roof
+- Doors
+- Windows
 
-### Activity: "Make the computer say your name!"
+**HTML parts:**
+- Headings
+- Paragraphs
+- Links
+- Images
 
-Let's try this together:
+## 🌍 Where is HTML Used?
 
-1. Open a text editor
-2. Type: print("Hello, My Name")
-3. Replace "My Name" with YOUR name
-4. Save the file
-5. Run it!
+HTML is everywhere.
 
-**Example:**
-\`\`\`
-print("Hello, Sarah!")
-\`\`\`
+Every website uses HTML.
 
-The computer will say: Hello, Sarah!
+- Google uses HTML
+- Facebook uses HTML
+- Your favorite site uses HTML
 
-## 🧩 Visual Example
+## 📱 What Can HTML Do?
 
-Imagine coding like this:
+HTML can show:
+- Text
+- Pictures
+- Links
+- Videos
+- Forms
 
-**You:** "Computer, say hello"
-**Computer:** "Hello!"
+## 🔍 HTML Tags
 
-**You:** "Computer, add 2 + 2"
-**Computer:** "4"
+HTML uses tags.
 
-## ✅ What You Learned Today
-
-- ✅ Coding is giving instructions to computers
-- ✅ Computers understand special languages
-- ✅ We can make computers do things with code
-
-## 🎧 Listen and Learn
-
-Click the "Listen" button to hear this lesson read aloud.
-
-## 🗣️ Talk to AI
-
-Ask the AI tutor: "What is coding?"
-
-The AI will explain it in a simple way just for you!
-
-## 🏆 Your Progress
-
-You completed Day 1! Great job!
-
-⭐ You're doing amazing!
-
-**Remember:** Take breaks when you need them. Learning should be fun!`;
-}
-
-function getDay2Content(): string {
-  return `# 🧩 Day 2: Understanding What a Programming Language Is
-
-## 🎯 Today's Goal
-
-Learn what a programming language is.
-
-See how it's like building blocks.
-
-## 🧱 Programming Languages are Like Blocks
-
-Think of programming like LEGO blocks.
-
-Each block is a command.
-
-You put blocks together to build something.
-
-## 📊 Visual Explanation
-
-### Blocks and Code Comparison
-
-**Building Blocks:**
-- Red block = Print something
-- Blue block = Store information
-- Green block = Make a decision
-
-**Code:**
-- print() = Print something
-- variable = Store information
-- if = Make a decision
-
-## 🔤 What are Commands?
-
-Commands are instructions.
+Tags are like labels.
 
 They tell the computer what to do.
 
-**Example commands:**
-- print() - Show something
-- input() - Ask for information
-- if - Make a choice
-
-## 📝 What is Syntax?
-
-Syntax is like grammar for code.
-
-It's the rules of writing code.
-
-Just like sentences need periods.
-
-Code needs proper syntax.
-
-## 🎮 Try It Yourself
-
-Let's compare:
-
-**English:** "Say hello"
-**Code:** print("hello")
-
-See? They're similar!
-
-## 💡 Real-Life Example
-
-**English:** "If it's sunny, go outside"
-**Code:** if sunny: go_outside()
-
-Same idea, different language!
-
-## ✅ What You Learned
-
-- ✅ Programming languages use commands
-- ✅ Commands are like building blocks
-- ✅ Syntax is the grammar of code
-
-## 🎧 Listen and Learn
-
-Listen to this lesson for better understanding.
-
-## 🗣️ Talk to AI
-
-Ask: "What is a programming language?"
-
-The AI will explain with examples!
-
-## 🏆 Progress Update
-
-Day 2 complete! You're learning so much!
-
-⭐ Keep up the great work!`;
-}
-
-function getDay3Content(): string {
-  return `# 📝 Day 3: Printing and Displaying Text
-
-## 🎯 Today's Goal
-
-Learn the print() command.
-
-Practice printing different things.
-
-## 📢 What is print()?
-
-print() shows text on the screen.
-
-It's like talking out loud.
-
-But the computer writes it down.
-
-## 🎨 Simple Example
-
-\`\`\`
-print("Hello!")
-\`\`\`
-
-This shows: Hello!
-
-## 🌈 Practice Time
-
-### Exercise 1: Print Your Favorite Color
-
-\`\`\`
-print("My favorite color is blue!")
-\`\`\`
-
-Try it with YOUR favorite color!
-
-### Exercise 2: Print a Number
-
-\`\`\`
-print("My favorite number is 7")
-\`\`\`
-
-Change 7 to YOUR favorite number!
-
-### Exercise 3: Print Multiple Things
-
-\`\`\`
-print("Hello")
-print("World")
-print("!")
-\`\`\`
-
-This prints three lines!
-
-## 💡 Tips
-
-- Use quotes around text: "like this"
-- Each print() makes a new line
-- You can print anything!
-
-## 🎮 Interactive Exercise
-
-Try this:
-
-1. Print your name
-2. Print your age
-3. Print your favorite food
-
 **Example:**
-\`\`\`
-print("My name is Alex")
-print("I am 10 years old")
-print("I love pizza")
+
+\`<p>\` means paragraph.
+
+\`<h1>\` means heading.
+
+## 💻 How HTML Works
+
+1. You write HTML code.
+
+2. The computer reads it.
+
+3. The computer shows a web page.
+
+## 🎨 Visual Example
+
+**HTML code:**
+\`\`\`html
+<p>Hello World</p>
 \`\`\`
 
-## ✅ What You Learned
+**What you see:**
+Hello World
 
-- ✅ print() shows text on screen
-- ✅ Use quotes around text
-- ✅ Each print() makes a new line
+## ✅ What You Learned Today
+
+- ✅ HTML is a language
+- ✅ HTML makes web pages
+- ✅ HTML uses tags
+- ✅ Every website uses HTML
 
 ## 🎧 Listen and Learn
 
-Hear how print() works with audio.
+Click the "Listen" button.
+
+Hear this lesson read aloud.
 
 ## 🗣️ Talk to AI
 
-Ask: "How do I use print()?"
-
-Get help from your AI tutor!
-
-## 🏆 Great Job!
-
-Day 3 done! You're becoming a coder!
-
-⭐ You're doing fantastic!`;
-}
-
-function getDay4Content(): string {
-  return `# 📦 Day 4: Variables with Real-Life Examples
-
-## 🎯 Today's Goal
-
-Learn what variables are.
-
-Think of them as boxes that hold things.
-
-## 📦 Variables are Like Boxes
-
-Imagine you have a box.
-
-You put something in the box.
-
-You write a name on the box.
-
-Later, you can find it by the name.
-
-Variables work the same way!
-
-## 🎨 Real-Life Example
-
-**Box labeled "name"** contains "Sarah"
-**Box labeled "age"** contains "10"
-**Box labeled "hobby"** contains "drawing"
-
-In code:
-\`\`\`
-name = "Sarah"
-age = 10
-hobby = "drawing"
-\`\`\`
-
-## 🔤 How to Use Variables
-
-### Step 1: Create a variable
-
-\`\`\`
-my_name = "Alex"
-\`\`\`
-
-### Step 2: Use the variable
-
-\`\`\`
-print(my_name)
-\`\`\`
-
-This prints: Alex
-
-## 🎮 Activities
-
-### Activity 1: Store Your Name
-
-\`\`\`
-name = "Your Name Here"
-print("Hello, " + name)
-\`\`\`
-
-### Activity 2: Store Your Age
-
-\`\`\`
-age = 10
-print("I am " + str(age) + " years old")
-\`\`\`
-
-### Activity 3: Store Your Favorite Hobby
-
-\`\`\`
-hobby = "reading"
-print("I love " + hobby)
-\`\`\`
-
-## 💡 Important Rules
-
-- Variable names can't have spaces
-- Use letters and numbers
-- Start with a letter
-- Use underscore for spaces: my_name
-
-## 🎯 Challenge
-
-Create three variables:
-1. Your name
-2. Your age
-3. Your favorite color
-
-Then print them all!
-
-## ✅ What You Learned
-
-- ✅ Variables are like labeled boxes
-- ✅ They store information
-- ✅ You can use them later
-
-## 🎧 Listen and Learn
-
-Hear about variables with audio help.
-
-## 🗣️ Talk to AI
-
-Ask: "What is a variable?"
-
-The AI will explain with examples!
-
-## 🏆 Awesome Work!
-
-Day 4 complete! You understand variables!
-
-⭐ Keep going, you're amazing!`;
-}
-
-function getDay5Content(): string {
-  return `# 🔢 Day 5: Numbers and Math in Code
-
-## 🎯 Today's Goal
-
-Learn to do math in code.
-
-Make a simple calculator.
-
-## ➕ Simple Addition
-
-Adding numbers is easy!
-
-\`\`\`
-result = 5 + 3
-print(result)
-\`\`\`
-
-This shows: 8
-
-## ➖ Subtraction
-
-Taking away numbers:
-
-\`\`\`
-result = 10 - 4
-print(result)
-\`\`\`
-
-This shows: 6
-
-## ✖️ Multiplication
-
-Multiplying numbers:
-
-\`\`\`
-result = 3 * 4
-print(result)
-\`\`\`
-
-This shows: 12
-
-## ➗ Division
-
-Dividing numbers:
-
-\`\`\`
-result = 12 / 3
-print(result)
-\`\`\`
-
-This shows: 4
-
-## 🎮 Visual Calculator Game
-
-Let's make a simple calculator!
-
-### Step 1: Ask for numbers
-
-\`\`\`
-num1 = 5
-num2 = 3
-\`\`\`
-
-### Step 2: Do math
-
-\`\`\`
-addition = num1 + num2
-subtraction = num1 - num2
-multiplication = num1 * num2
-division = num1 / num2
-\`\`\`
-
-### Step 3: Show results
-
-\`\`\`
-print("Addition:", addition)
-print("Subtraction:", subtraction)
-print("Multiplication:", multiplication)
-print("Division:", division)
-\`\`\`
-
-## 🎨 Try It Yourself
-
-Change the numbers:
-
-\`\`\`
-num1 = 10
-num2 = 2
-\`\`\`
-
-What do you get?
-
-## 💡 Math Symbols
-
-- + means add
-- - means subtract
-- * means multiply
-- / means divide
-
-## 🎯 Challenge
-
-Make a calculator that:
-1. Adds two numbers
-2. Subtracts two numbers
-3. Shows both results
-
-## ✅ What You Learned
-
-- ✅ How to add numbers
-- ✅ How to subtract numbers
-- ✅ How to multiply and divide
-
-## 🎧 Listen and Learn
-
-Hear about math in code.
-
-## 🗣️ Talk to AI
-
-Ask: "How do I do math in code?"
-
-Get help from your AI tutor!
-
-## 🏆 Excellent!
-
-Day 5 done! You can do math with code!
-
-⭐ You're learning so fast!`;
-}
-
-function getDay6Content(): string {
-  return `# 🤔 Day 6: Decision Making (If-Else)
-
-## 🎯 Today's Goal
-
-Learn to make decisions in code.
-
-Use if-else statements.
-
-## 🌧️ Real-Life Example
-
-**If it's raining, take an umbrella.**
-
-**Otherwise, don't take an umbrella.**
-
-This is decision making!
-
-## 💻 In Code
-
-\`\`\`
-weather = "raining"
-
-if weather == "raining":
-    print("Take an umbrella!")
-else:
-    print("No umbrella needed!")
-\`\`\`
-
-## 🔍 How It Works
-
-1. Check the condition
-2. If true, do this
-3. If false, do that
-
-## 🎨 Simple Examples
-
-### Example 1: Age Check
-
-\`\`\`
-age = 10
-
-if age >= 10:
-    print("You are 10 or older!")
-else:
-    print("You are younger than 10!")
-\`\`\`
-
-### Example 2: Favorite Color
-
-\`\`\`
-favorite_color = "blue"
-
-if favorite_color == "blue":
-    print("Blue is awesome!")
-else:
-    print("That's a nice color too!")
-\`\`\`
-
-## 🎮 Interactive Quiz
-
-Let's make a quiz!
-
-\`\`\`
-answer = "yes"
-
-if answer == "yes":
-    print("Correct! 🎉")
-else:
-    print("Try again! 💪")
-\`\`\`
-
-## 💡 Important Rules
-
-- Use == to check if equal
-- Use : after if and else
-- Indent the code inside
-
-## 🎯 Challenge
-
-Create a program that:
-1. Asks if you like coding
-2. If yes, say "Awesome!"
-3. If no, say "That's okay!"
-
-## ✅ What You Learned
-
-- ✅ How to make decisions
-- ✅ Using if-else statements
-- ✅ Checking conditions
-
-## 🎧 Listen and Learn
-
-Hear about decision making.
-
-## 🗣️ Talk to AI
-
-Ask: "What is if-else?"
-
-The AI will explain step by step!
-
-## 🏆 Great Progress!
-
-Day 6 complete! You can make decisions!
-
-⭐ You're doing so well!`;
-}
-
-function getDay7Content(): string {
-  return `# 🔄 Day 7: Loops Made Simple
-
-## 🎯 Today's Goal
-
-Learn what loops are.
-
-Understand repetition in code.
-
-## 🦷 Real-Life Example
-
-**Brushing your teeth every day.**
-
-You repeat the same action.
-
-Every single day.
-
-That's a loop!
-
-## 💻 In Code
-
-Loops repeat code.
-
-Instead of writing the same thing many times.
-
-You write it once in a loop.
-
-## 🔄 Simple Loop Example
-
-### Repeat 5 Times
-
-\`\`\`
-for i in range(5):
-    print("Hello")
-\`\`\`
-
-This prints "Hello" five times!
-
-## 🎨 Visual Explanation
-
-**Without loop:**
-\`\`\`
-print("Hello")
-print("Hello")
-print("Hello")
-print("Hello")
-print("Hello")
-\`\`\`
-
-**With loop:**
-\`\`\`
-for i in range(5):
-    print("Hello")
-\`\`\`
-
-Much shorter!
-
-## 🎮 Practice Exercises
-
-### Exercise 1: Count to 5
-
-\`\`\`
-for i in range(5):
-    print(i + 1)
-\`\`\`
-
-This prints: 1, 2, 3, 4, 5
-
-### Exercise 2: Print Your Name 3 Times
-
-\`\`\`
-for i in range(3):
-    print("Your Name")
-\`\`\`
-
-### Exercise 3: Countdown
-
-\`\`\`
-for i in range(5, 0, -1):
-    print(i)
-print("Blast off!")
-\`\`\`
-
-## 💡 How Loops Work
-
-1. Start at the beginning
-2. Do the action
-3. Go to the next
-4. Repeat until done
-
-## 🎯 Challenge
-
-Create a loop that:
-1. Prints "I love coding!" 10 times
-2. Numbers each line
-3. Adds an emoji to each line
-
-## ✅ What You Learned
-
-- ✅ Loops repeat actions
-- ✅ They save time
-- ✅ They make code shorter
-
-## 🎧 Listen and Learn
-
-Hear about loops with audio.
-
-## 🗣️ Talk to AI
-
-Ask: "What is a loop?"
+Ask the AI: "What is HTML?"
 
 Get a simple explanation!
 
-## 🏆 Amazing Work!
+## 🏆 Great Job!
 
-Day 7 done! You understand loops!
+Day 1 complete!
 
-⭐ You're becoming a programmer!`;
+⭐ You're doing amazing!
+
+**Remember:** Take breaks.
+
+Learning should be fun!`;
 }
 
-function getDay8Content(): string {
-  return `# 🎯 Day 8: Combining What You Learned
+function getDay2Content(): string {
+  return `# 📄 Day 2: Your First HTML Page
 
-## 🎯 Today's Goal
+## 🎯 Today You Will Learn
 
-Use everything you learned.
+How to make an HTML page.
 
-Build a simple chatbot!
+The basic structure.
 
-## 🤖 Mini Project: Simple Chatbot
+How to save it.
 
-Let's build a chatbot that greets users.
+## 📝 Step 1: The Basic Structure
 
-It will:
-1. Ask for the user's name
-2. Say hello
-3. Ask a question
-4. Respond to the answer
+Every HTML page needs this:
 
-## 📝 Step-by-Step
-
-### Step 1: Greet the User
-
-\`\`\`
-print("Hello! I'm a chatbot!")
-print("What's your name?")
-name = input("Enter your name: ")
-print("Nice to meet you, " + name + "!")
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    Hello World!
+</body>
+</html>
 \`\`\`
 
-### Step 2: Ask a Question
+## 🔍 Let's Break It Down
 
-\`\`\`
-print("How are you today?")
-feeling = input("Enter your feeling: ")
+### \`<!DOCTYPE html>\`
 
-if feeling == "good":
-    print("That's great! I'm glad!")
-else:
-    print("I hope you feel better soon!")
-\`\`\`
+This tells the computer:
+"This is an HTML page."
 
-### Step 3: Put It Together
+### \`<html>\`
 
-\`\`\`
-# Greet user
-print("Hello! I'm a chatbot!")
-name = input("What's your name? ")
-print("Nice to meet you, " + name + "!")
+This is the start of your page.
 
-# Ask how they are
-feeling = input("How are you today? ")
+### \`</html>\`
 
-if feeling == "good":
-    print("That's wonderful!")
-else:
-    print("I'm here to help!")
+This is the end of your page.
 
-# Ask favorite color
-color = input("What's your favorite color? ")
-print("I like " + color + " too!")
+## 📋 The Head Section
+
+The \`<head>\` section has information.
+
+It tells the computer about your page.
+
+**Example:**
+\`\`\`html
+<head>
+    <title>My First Page</title>
+</head>
 \`\`\`
 
-## 🎨 Make It Better
+The title shows in the browser tab.
 
-Add a loop to keep talking:
+## 📄 The Body Section
 
+The \`<body>\` section has content.
+
+This is what people see.
+
+**Example:**
+\`\`\`html
+<body>
+    Hello World!
+</body>
 \`\`\`
-print("Hello! I'm a chatbot!")
-name = input("What's your name? ")
-print("Nice to meet you, " + name + "!")
 
-for i in range(3):
-    question = input("Ask me something: ")
-    print("That's interesting! Tell me more!")
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Page</title>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>This is my first web page.</p>
+</body>
+</html>
 \`\`\`
 
-## 💡 What We Used
+## 💾 How to Save Your File
 
-- ✅ Variables (to store name)
-- ✅ print() (to show messages)
-- ✅ input() (to get answers)
-- ✅ if-else (to make decisions)
-- ✅ loops (to repeat questions)
+1. Open a text editor.
 
-## 🎯 Your Turn!
+2. Type your HTML code.
 
-Create your own chatbot that:
-1. Asks the user's name
-2. Asks their age
-3. Asks their favorite hobby
-4. Says something nice about each answer
+3. Save the file.
 
-## ✅ What You Learned
+4. Name it: \`my-page.html\`
 
-- ✅ How to combine different concepts
-- ✅ Building a complete program
-- ✅ Using everything together
+5. Open it in a browser.
+
+## 🌐 Opening Your Page
+
+1. Find your file.
+
+2. Double-click it.
+
+3. It opens in your browser.
+
+4. You see your web page!
+
+## ✅ What You Learned Today
+
+- ✅ HTML page structure
+- ✅ The head section
+- ✅ The body section
+- ✅ How to save a file
 
 ## 🎧 Listen and Learn
 
-Hear about combining concepts.
+Hear how to make a page.
 
 ## 🗣️ Talk to AI
 
-Ask: "How do I build a chatbot?"
+Ask: "How do I make an HTML page?"
 
 Get step-by-step help!
 
-## 🏆 Fantastic!
+## 🏆 Awesome Work!
 
-Day 8 complete! You built a chatbot!
+Day 2 complete!
 
-⭐ You're a real programmer now!`;
+⭐ You made your first page!`;
 }
 
-function getDay9Content(): string {
-  return `# 💪 Day 9: Understanding Errors
+function getDay3Content(): string {
+  return `# 📝 Day 3: Adding Text to Your Page
 
-## 🎯 Today's Goal
+## 🎯 Today You Will Learn
 
-Learn that errors are okay.
+How to add headings.
 
-Understand how to fix them.
+How to add paragraphs.
 
-## ❌ What are Errors?
+How to make text different sizes.
 
-Errors are mistakes in code.
+## 📰 Headings
 
-Everyone makes them!
+Headings make text big.
 
-Even experienced programmers.
+They show important titles.
 
-## 💡 Important Message
+HTML has 6 heading sizes.
 
-**Don't be afraid of errors!**
+## 🔢 Heading Sizes
 
-They help us learn.
+\`<h1>\` is the biggest.
 
-They show us what to fix.
+\`<h2>\` is smaller.
 
-## 🎨 Common Errors
+\`<h3>\` is even smaller.
 
-### Error 1: Forgot Quotes
+\`<h4>\`, \`<h5>\`, \`<h6>\` get smaller.
 
-**Wrong:**
-\`\`\`
-print(Hello)
-\`\`\`
+## 📝 Heading Examples
 
-**Right:**
-\`\`\`
-print("Hello")
+\`\`\`html
+<h1>This is Big</h1>
+<h2>This is Medium</h2>
+<h3>This is Small</h3>
 \`\`\`
 
-### Error 2: Forgot Colon
+## 📄 Paragraphs
 
-**Wrong:**
-\`\`\`
-if age == 10
-    print("You are 10!")
-\`\`\`
+Paragraphs are for regular text.
 
-**Right:**
-\`\`\`
-if age == 10:
-    print("You are 10!")
-\`\`\`
+Use \`<p>\` for paragraphs.
 
-### Error 3: Wrong Indentation
+## 🎨 Paragraph Example
 
-**Wrong:**
-\`\`\`
-if age == 10:
-print("You are 10!")
+\`\`\`html
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
 \`\`\`
 
-**Right:**
-\`\`\`
-if age == 10:
-    print("You are 10!")
-\`\`\`
+## 📋 Complete Example
 
-## 🤖 AI Explains Errors
-
-When you get an error:
-
-1. Read the error message
-2. Find the line number
-3. Check that line
-4. Look for common mistakes
-5. Ask the AI tutor for help!
-
-## 🎮 Practice: Fix These Errors
-
-### Exercise 1
-
-**Broken code:**
-\`\`\`
-print(Hello World)
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    <h1>My Favorite Animals</h1>
+    <p>I love dogs.</p>
+    <p>I love cats.</p>
+    <h2>Why I Love Them</h2>
+    <p>They are friendly.</p>
+</body>
+</html>
 \`\`\`
 
-**Fix it!** (Hint: Add quotes)
+## 🎯 Try It Yourself
 
-### Exercise 2
+Make a page about yourself.
 
-**Broken code:**
-\`\`\`
-name = Alex
-print(name)
-\`\`\`
+1. Add a heading with your name.
 
-**Fix it!** (Hint: Add quotes around Alex)
+2. Add paragraphs about you.
 
-### Exercise 3
+3. Add a heading about your hobbies.
 
-**Broken code:**
-\`\`\`
-if age == 10
-print("Correct!")
-\`\`\`
+4. Add paragraphs about hobbies.
 
-**Fix it!** (Hint: Add colon and indentation)
+## 💡 Important Rules
 
-## 💪 Remember
+- Always close your tags.
 
-- ✅ Errors are normal
-- ✅ Everyone makes mistakes
-- ✅ Errors help us learn
-- ✅ Don't give up!
+- \`<h1>\` needs \`</h1>\`
+
+- \`<p>\` needs \`</p>\`
+
+## ✅ What You Learned Today
+
+- ✅ How to make headings
+- ✅ How to make paragraphs
+- ✅ Different heading sizes
+- ✅ How to structure text
 
 ## 🎧 Listen and Learn
 
-Hear about errors and how to fix them.
+Hear about text in HTML.
 
 ## 🗣️ Talk to AI
 
-If you get an error, ask the AI:
-"Help me fix this error: [your error]"
+Ask: "How do I add text?"
 
-The AI will explain it simply!
+Get help with headings!
 
-## 🏆 Great Job!
+## 🏆 Excellent!
 
-Day 9 done! You're not afraid of errors!
+Day 3 complete!
 
-⭐ Mistakes are how we learn!`;
+⭐ You can add text now!`;
+}
+
+function getDay4Content(): string {
+  return `# 📋 Day 4: Making Lists
+
+## 🎯 Today You Will Learn
+
+How to make bullet lists.
+
+How to make numbered lists.
+
+When to use each one.
+
+## 🔘 Bullet Lists
+
+Bullet lists show items.
+
+Each item has a bullet.
+
+Use \`<ul>\` for bullet lists.
+
+\`ul\` means "unordered list".
+
+## 📝 Bullet List Example
+
+\`\`\`html
+<ul>
+    <li>Apples</li>
+    <li>Bananas</li>
+    <li>Oranges</li>
+</ul>
+\`\`\`
+
+**What you see:**
+- Apples
+- Bananas
+- Oranges
+
+## 🔢 Numbered Lists
+
+Numbered lists show order.
+
+Each item has a number.
+
+Use \`<ol>\` for numbered lists.
+
+\`ol\` means "ordered list".
+
+## 📝 Numbered List Example
+
+\`\`\`html
+<ol>
+    <li>First step</li>
+    <li>Second step</li>
+    <li>Third step</li>
+</ol>
+\`\`\`
+
+**What you see:**
+1. First step
+2. Second step
+3. Third step
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Lists</title>
+</head>
+<body>
+    <h1>My Shopping List</h1>
+    <ul>
+        <li>Milk</li>
+        <li>Bread</li>
+        <li>Eggs</li>
+    </ul>
+    
+    <h2>How to Make Tea</h2>
+    <ol>
+        <li>Boil water</li>
+        <li>Add tea bag</li>
+        <li>Wait 3 minutes</li>
+        <li>Remove tea bag</li>
+    </ol>
+</body>
+</html>
+\`\`\`
+
+## 💡 When to Use Each
+
+**Use bullet lists for:**
+- Shopping lists
+- Things that don't have order
+- Simple lists
+
+**Use numbered lists for:**
+- Steps in order
+- Instructions
+- Things that have order
+
+## 🎯 Try It Yourself
+
+Make a page with lists.
+
+1. Make a bullet list of your favorite foods.
+
+2. Make a numbered list of your morning routine.
+
+3. Save and open your page.
+
+## ✅ What You Learned Today
+
+- ✅ How to make bullet lists
+- ✅ How to make numbered lists
+- ✅ When to use each one
+- ✅ List items with \`<li>\`
+
+## 🎧 Listen and Learn
+
+Hear about lists in HTML.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I make lists?"
+
+Get help with lists!
+
+## 🏆 Great Progress!
+
+Day 4 complete!
+
+⭐ You can make lists now!`;
+}
+
+function getDay5Content(): string {
+  return `# 🔗 Day 5: Adding Links
+
+## 🎯 Today You Will Learn
+
+How to make links.
+
+How links work.
+
+Different types of links.
+
+## 🔗 What is a Link?
+
+A link takes you somewhere.
+
+Click the link.
+
+Go to another page.
+
+## 📝 Link Example
+
+\`\`\`html
+<a href="https://www.google.com">Go to Google</a>
+\`\`\`
+
+**What you see:**
+Go to Google (clickable)
+
+## 🔍 Breaking Down the Link
+
+\`<a>\` means anchor.
+
+It makes a link.
+
+\`href\` tells where to go.
+
+The text is what you click.
+
+## 🌐 Link to Another Website
+
+\`\`\`html
+<a href="https://www.example.com">Visit Example</a>
+\`\`\`
+
+Click it.
+
+Go to that website.
+
+## 📄 Link to Another Page
+
+\`\`\`html
+<a href="page2.html">Go to Page 2</a>
+\`\`\`
+
+Click it.
+
+Go to page2.html.
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Links</title>
+</head>
+<body>
+    <h1>My Favorite Websites</h1>
+    <p>Visit <a href="https://www.google.com">Google</a></p>
+    <p>Visit <a href="https://www.wikipedia.org">Wikipedia</a></p>
+    
+    <h2>My Other Pages</h2>
+    <p><a href="about.html">About Me</a></p>
+    <p><a href="contact.html">Contact</a></p>
+</body>
+</html>
+\`\`\`
+
+## 💡 Link Tips
+
+- Always use \`https://\` for websites.
+
+- Put the full address.
+
+- Make link text clear.
+
+## 🎯 Try It Yourself
+
+Make a page with links.
+
+1. Add a link to Google.
+
+2. Add a link to Wikipedia.
+
+3. Add a link to your favorite site.
+
+## ✅ What You Learned Today
+
+- ✅ How to make links
+- ✅ The \`<a>\` tag
+- ✅ The \`href\` attribute
+- ✅ Links to websites and pages
+
+## 🎧 Listen and Learn
+
+Hear about links in HTML.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I make links?"
+
+Get help with links!
+
+## 🏆 Fantastic!
+
+Day 5 complete!
+
+⭐ You can add links now!`;
+}
+
+function getDay6Content(): string {
+  return `# 🖼️ Day 6: Adding Images
+
+## 🎯 Today You Will Learn
+
+How to add pictures.
+
+How images work.
+
+Different image formats.
+
+## 🖼️ What is an Image Tag?
+
+Images show pictures.
+
+Use \`<img>\` for images.
+
+## 📝 Image Example
+
+\`\`\`html
+<img src="photo.jpg" alt="A beautiful photo">
+\`\`\`
+
+## 🔍 Breaking Down the Image
+
+\`<img>\` shows an image.
+
+\`src\` tells which picture.
+
+\`alt\` describes the picture.
+
+## 📂 Image from Your Computer
+
+\`\`\`html
+<img src="my-photo.jpg" alt="My photo">
+\`\`\`
+
+Put the file in the same folder.
+
+## 🌐 Image from the Internet
+
+\`\`\`html
+<img src="https://example.com/image.jpg" alt="Example image">
+\`\`\`
+
+Use the full web address.
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Images</title>
+</head>
+<body>
+    <h1>My Photo Album</h1>
+    <img src="photo1.jpg" alt="My first photo">
+    <p>This is my first photo.</p>
+    
+    <img src="photo2.jpg" alt="My second photo">
+    <p>This is my second photo.</p>
+</body>
+</html>
+\`\`\`
+
+## 💡 Image Tips
+
+- Always use \`alt\` text.
+
+- It helps people who can't see.
+
+- Keep image files small.
+
+- Common formats: .jpg, .png, .gif
+
+## 🎯 Try It Yourself
+
+Make a page with images.
+
+1. Find a picture on your computer.
+
+2. Put it in the same folder as your HTML file.
+
+3. Add it to your page.
+
+4. Add alt text.
+
+## ✅ What You Learned Today
+
+- ✅ How to add images
+- ✅ The \`<img>\` tag
+- ✅ The \`src\` attribute
+- ✅ The \`alt\` attribute
+
+## 🎧 Listen and Learn
+
+Hear about images in HTML.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I add images?"
+
+Get help with images!
+
+## 🏆 Amazing!
+
+Day 6 complete!
+
+⭐ You can add pictures now!`;
+}
+
+function getDay7Content(): string {
+  return `# ✨ Day 7: Making Things Bold and Italic
+
+## 🎯 Today You Will Learn
+
+How to make text bold.
+
+How to make text italic.
+
+When to use each one.
+
+## 💪 Bold Text
+
+Bold text is thicker.
+
+It stands out more.
+
+Use \`<b>\` or \`<strong>\`.
+
+## 📝 Bold Example
+
+\`\`\`html
+<p>This is <b>bold</b> text.</p>
+\`\`\`
+
+**What you see:**
+This is **bold** text.
+
+## 📝 Strong Example
+
+\`\`\`html
+<p>This is <strong>important</strong> text.</p>
+\`\`\`
+
+**What you see:**
+This is **important** text.
+
+## 🔤 Italic Text
+
+Italic text is slanted.
+
+It looks different.
+
+Use \`<i>\` or \`<em>\`.
+
+## 📝 Italic Example
+
+\`\`\`html
+<p>This is <i>italic</i> text.</p>
+\`\`\`
+
+**What you see:**
+This is *italic* text.
+
+## 📝 Emphasis Example
+
+\`\`\`html
+<p>This is <em>emphasized</em> text.</p>
+\`\`\`
+
+**What you see:**
+This is *emphasized* text.
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Styles</title>
+</head>
+<body>
+    <h1>My Story</h1>
+    <p>This is a <b>very important</b> story.</p>
+    <p>It happened on a <i>sunny day</i>.</p>
+    <p>The <strong>main character</strong> was <em>very brave</em>.</p>
+</body>
+</html>
+\`\`\`
+
+## 💡 When to Use Each
+
+**Use bold for:**
+- Important words
+- Key points
+- Things that stand out
+
+**Use italic for:**
+- Book titles
+- Foreign words
+- Emphasis
+
+## 🎯 Try It Yourself
+
+Make a page with styles.
+
+1. Write a paragraph.
+
+2. Make some words bold.
+
+3. Make some words italic.
+
+4. Save and open your page.
+
+## ✅ What You Learned Today
+
+- ✅ How to make text bold
+- ✅ How to make text italic
+- ✅ The \`<b>\` and \`<strong>\` tags
+- ✅ The \`<i>\` and \`<em>\` tags
+
+## 🎧 Listen and Learn
+
+Hear about text styles.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I make text bold?"
+
+Get help with styles!
+
+## 🏆 Wonderful!
+
+Day 7 complete!
+
+⭐ You can style text now!`;
+}
+
+function getDay8Content(): string {
+  return `# 🎨 Day 8: Adding Colors
+
+## 🎯 Today You Will Learn
+
+How to change text color.
+
+How to change background color.
+
+How to use color names.
+
+## 🎨 Colors in HTML
+
+Colors make pages pretty.
+
+You can change text color.
+
+You can change background color.
+
+## 📝 Text Color Example
+
+\`\`\`html
+<p style="color: red;">This text is red.</p>
+\`\`\`
+
+**What you see:**
+This text is red.
+
+## 🎨 Background Color Example
+
+\`\`\`html
+<p style="background-color: yellow;">This has a yellow background.</p>
+\`\`\`
+
+**What you see:**
+This has a yellow background.
+
+## 🌈 Color Names
+
+You can use color names:
+
+- red
+- blue
+- green
+- yellow
+- orange
+- purple
+- pink
+- black
+- white
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colors</title>
+</head>
+<body>
+    <h1 style="color: blue;">Blue Heading</h1>
+    <p style="color: red;">Red text.</p>
+    <p style="background-color: yellow;">Yellow background.</p>
+    <p style="color: green; background-color: pink;">Green text on pink background.</p>
+</body>
+</html>
+\`\`\`
+
+## 💡 Color Tips
+
+- Use simple color names.
+
+- Make sure text is readable.
+
+- Don't use too many colors.
+
+- Keep it simple and clear.
+
+## 🎯 Try It Yourself
+
+Make a colorful page.
+
+1. Make a heading with blue text.
+
+2. Make a paragraph with red text.
+
+3. Make a paragraph with yellow background.
+
+4. Save and open your page.
+
+## ✅ What You Learned Today
+
+- ✅ How to change text color
+- ✅ How to change background color
+- ✅ Using the style attribute
+- ✅ Color names
+
+## 🎧 Listen and Learn
+
+Hear about colors in HTML.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I add colors?"
+
+Get help with colors!
+
+## 🏆 Beautiful!
+
+Day 8 complete!
+
+⭐ You can add colors now!`;
+}
+
+function getDay9Content(): string {
+  return `# 📊 Day 9: Making Tables
+
+## 🎯 Today You Will Learn
+
+How to make tables.
+
+Table rows and columns.
+
+When to use tables.
+
+## 📊 What is a Table?
+
+Tables organize information.
+
+They have rows and columns.
+
+Like a spreadsheet.
+
+## 📝 Simple Table
+
+\`\`\`html
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Age</td>
+    </tr>
+    <tr>
+        <td>John</td>
+        <td>10</td>
+    </tr>
+</table>
+\`\`\`
+
+## 🔍 Breaking Down the Table
+
+\`<table>\` makes a table.
+
+\`<tr>\` makes a row.
+
+\`<td>\` makes a cell.
+
+## 📋 Table Headers
+
+Headers label columns.
+
+Use \`<th>\` for headers.
+
+## 📝 Table with Headers
+
+\`\`\`html
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+    </tr>
+    <tr>
+        <td>John</td>
+        <td>10</td>
+        <td>New York</td>
+    </tr>
+    <tr>
+        <td>Sarah</td>
+        <td>9</td>
+        <td>Los Angeles</td>
+    </tr>
+</table>
+\`\`\`
+
+## 🎨 Complete Example
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Table</title>
+</head>
+<body>
+    <h1>My Friends</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Favorite Color</th>
+        </tr>
+        <tr>
+            <td>Emma</td>
+            <td>10</td>
+            <td>Blue</td>
+        </tr>
+        <tr>
+            <td>Lucas</td>
+            <td>9</td>
+            <td>Red</td>
+        </tr>
+        <tr>
+            <td>Mia</td>
+            <td>10</td>
+            <td>Green</td>
+        </tr>
+    </table>
+</body>
+</html>
+\`\`\`
+
+## 💡 When to Use Tables
+
+**Use tables for:**
+- Lists of information
+- Data that fits in rows and columns
+- Organizing information
+- Schedules
+- Grades
+
+## 🎯 Try It Yourself
+
+Make a table.
+
+1. Make a table of your friends.
+
+2. Include their names and ages.
+
+3. Add headers.
+
+4. Save and open your page.
+
+## ✅ What You Learned Today
+
+- ✅ How to make tables
+- ✅ Table rows with \`<tr>\`
+- ✅ Table cells with \`<td>\`
+- ✅ Table headers with \`<th>\`
+
+## 🎧 Listen and Learn
+
+Hear about tables in HTML.
+
+## 🗣️ Talk to AI
+
+Ask: "How do I make tables?"
+
+Get help with tables!
+
+## 🏆 Excellent!
+
+Day 9 complete!
+
+⭐ You can make tables now!`;
 }
 
 function getDay10Content(): string {
-  return `# 🎉 Day 10: Final Project & Celebration
+  return `# 🎉 Day 10: Your First Complete Website
 
-## 🎯 Today's Goal
+## 🎯 Today You Will Build
 
-Build your final project!
+Your own website.
 
-Celebrate your achievement!
+Put everything together.
 
-## 🎁 Final Project: Fun Facts Generator
+Make it beautiful.
 
-Let's build a program that:
-1. Shows fun facts
-2. Lets users pick a fact
-3. Displays the fact
-4. Asks if they want another
+## 🏗️ Plan Your Website
 
-## 📝 Step-by-Step Project
+Think about what you want.
 
-### Step 1: Create Fun Facts
+- What is it about?
+- What pages do you need?
+- What information to include?
 
-\`\`\`
-facts = [
-    "Did you know? Bees can fly up to 15 miles per hour!",
-    "Fun fact: Octopuses have three hearts!",
-    "Wow! A group of flamingos is called a flamboyance!",
-    "Amazing! Honey never spoils!",
-    "Cool! Bananas are berries, but strawberries aren't!"
-]
-\`\`\`
+## 📄 Example: About Me Website
 
-### Step 2: Show Menu
+Make a website about yourself.
 
-\`\`\`
-print("Welcome to Fun Facts Generator!")
-print("Choose a number from 1 to 5:")
-choice = input("Enter your choice: ")
-\`\`\`
+Include:
+- Your name
+- Your hobbies
+- Your favorite things
+- Your photos
 
-### Step 3: Show the Fact
+## 🎨 Complete Website Example
 
-\`\`\`
-if choice == "1":
-    print(facts[0])
-elif choice == "2":
-    print(facts[1])
-elif choice == "3":
-    print(facts[2])
-elif choice == "4":
-    print(facts[3])
-elif choice == "5":
-    print(facts[4])
-else:
-    print("Please choose 1-5!")
-\`\`\`
-
-### Step 4: Add a Loop
-
-\`\`\`
-while True:
-    print("\\nFun Facts Generator!")
-    print("Choose 1-5 for a fact, or 'quit' to exit")
-    choice = input("Your choice: ")
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Me</title>
+</head>
+<body style="background-color: lightblue;">
+    <h1 style="color: darkblue;">Welcome to My Website!</h1>
     
-    if choice == "quit":
-        print("Thanks for playing!")
-        break
-    elif choice == "1":
-        print(facts[0])
-    elif choice == "2":
-        print(facts[1])
-    elif choice == "3":
-        print(facts[2])
-    elif choice == "4":
-        print(facts[3])
-    elif choice == "5":
-        print(facts[4])
-    else:
-        print("Please choose 1-5 or 'quit'!")
+    <h2>About Me</h2>
+    <p>Hi! My name is <strong>Alex</strong>.</p>
+    <p>I am 10 years old.</p>
+    <p>I love <em>coding</em> and <em>reading</em>.</p>
+    
+    <h2>My Hobbies</h2>
+    <ul>
+        <li>Reading books</li>
+        <li>Playing soccer</li>
+        <li>Learning HTML</li>
+    </ul>
+    
+    <h2>My Favorite Things</h2>
+    <ol>
+        <li>Pizza</li>
+        <li>Dogs</li>
+        <li>Video games</li>
+    </ol>
+    
+    <h2>My Photos</h2>
+    <img src="my-photo.jpg" alt="My photo">
+    
+    <h2>Links</h2>
+    <p>Visit <a href="https://www.google.com">Google</a></p>
+    <p>Visit <a href="https://www.wikipedia.org">Wikipedia</a></p>
+    
+    <h2>Contact Me</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>Alex</td>
+            <td>alex@example.com</td>
+        </tr>
+    </table>
+</body>
+</html>
 \`\`\`
 
-## 🎨 Complete Project
+## 🎨 Make It Yours
 
-\`\`\`
-# Fun Facts Generator
-# Final Project - Day 10
+Change everything.
 
-facts = [
-    "Did you know? Bees can fly up to 15 miles per hour!",
-    "Fun fact: Octopuses have three hearts!",
-    "Wow! A group of flamingos is called a flamboyance!",
-    "Amazing! Honey never spoils!",
-    "Cool! Bananas are berries, but strawberries aren't!"
-]
-
-print("=" * 40)
-print("🎉 WELCOME TO FUN FACTS GENERATOR! 🎉")
-print("=" * 40)
-
-while True:
-    print("\\nChoose a fun fact:")
-    print("1. Fact 1")
-    print("2. Fact 2")
-    print("3. Fact 3")
-    print("4. Fact 4")
-    print("5. Fact 5")
-    print("Type 'quit' to exit")
-    
-    choice = input("\\nYour choice: ")
-    
-    if choice.lower() == "quit":
-        print("\\nThanks for using Fun Facts Generator!")
-        print("You completed the course! 🎉")
-        break
-    elif choice == "1":
-        print("\\n" + facts[0])
-    elif choice == "2":
-        print("\\n" + facts[1])
-    elif choice == "3":
-        print("\\n" + facts[2])
-    elif choice == "4":
-        print("\\n" + facts[3])
-    elif choice == "5":
-        print("\\n" + facts[4])
-    else:
-        print("\\nPlease choose 1-5 or 'quit'!")
-    
-    print("\\n" + "=" * 40)
-\`\`\`
+- Put your name.
+- Put your hobbies.
+- Put your favorite things.
+- Add your photos.
+- Add your links.
 
 ## 🏆 What You Learned in 10 Days
 
-- ✅ What coding is
-- ✅ Programming languages
-- ✅ Printing text
-- ✅ Variables
-- ✅ Math in code
-- ✅ Decision making
-- ✅ Loops
-- ✅ Combining concepts
-- ✅ Fixing errors
-- ✅ Building projects
+- ✅ What HTML is
+- ✅ How to make HTML pages
+- ✅ How to add text
+- ✅ How to make lists
+- ✅ How to add links
+- ✅ How to add images
+- ✅ How to style text
+- ✅ How to add colors
+- ✅ How to make tables
+- ✅ How to build a website
 
 ## 🎉 Celebration!
 
 ### 🎊 You Did It! 🎊
 
-You completed the 10-day course!
+You completed 10 days!
 
-You learned to code!
+You learned HTML!
 
-You built projects!
+You built a website!
 
-You're a programmer now!
+You're a web developer now!
 
 ## 🏅 Your Certificate
 
 **Certificate of Completion**
 
 This certifies that you have completed:
+
 **CodeEase - HTML for Beginners**
-**10-Day Dyslexia-Friendly Programming Course**
+
+**10-Day Dyslexia-Friendly HTML Course**
 
 **Congratulations!** 🎉
 
@@ -1269,21 +1374,23 @@ Hear your celebration message!
 
 ## 🗣️ Talk to AI
 
-Ask the AI: "I finished the course!"
+Tell the AI: "I finished the course!"
 
-Get a special congratulations message!
+Get a special congratulations!
 
 ## 🌟 Next Steps
 
 Keep learning!
-Keep coding!
+
 Keep building!
+
+Keep creating!
 
 You can do anything!
 
 ## ✅ Final Words
 
-You completed 10 days of coding!
+You completed 10 days!
 
 You learned so much!
 
@@ -1291,6 +1398,15 @@ You should be proud!
 
 **You're amazing!** ⭐⭐⭐
 
-**Congratulations, programmer!** 🎉🎊🎈`;
-}
+**Congratulations, web developer!** 🎉🎊🎈
 
+## 🚀 Keep Going!
+
+Now you can:
+- Make more websites
+- Learn CSS (styling)
+- Learn JavaScript (interactivity)
+- Build amazing things!
+
+**You're a coder now!** 🎉`;
+}
