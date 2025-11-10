@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
@@ -35,6 +35,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const profileRef = useRef<UserProfile | null>(null);
+  const loadingRef = useRef(true);
+
+  // Update ref when profile changes
+  useEffect(() => {
+    profileRef.current = profile;
+  }, [profile]);
 
   // Fetch user profile from Supabase
   const fetchProfile = async (userId: string) => {
@@ -57,34 +64,103 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Initialize auth state
+  // Initialize auth state - only runs once on mount
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id).then(setProfile);
-      }
+    let mounted = true;
+    const initialCheckKey = 'comrade_auth_initialized';
+    
+    // Check if we've already done the initial auth check in this session
+    // This prevents showing loading spinner on every navigation
+    const hasInitialized = sessionStorage.getItem(initialCheckKey) === 'true';
+    
+    if (hasInitialized) {
+      // If already initialized, set loading to false immediately
       setLoading(false);
-    });
+      loadingRef.current = false;
+      
+      // Still get the session to ensure we have the latest state
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!mounted) return;
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        // Only fetch profile if we don't have one yet
+        if (session?.user && !profileRef.current) {
+          fetchProfile(session.user.id).then((userProfile) => {
+            if (mounted) {
+              setProfile(userProfile);
+              profileRef.current = userProfile;
+            }
+          });
+        }
+      });
+    } else {
+      // First time initialization - get session quickly
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!mounted) return;
+        
+        // Set session and user immediately (fast operation)
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        // Mark as initialized immediately so navigation doesn't show loading
+        setLoading(false);
+        loadingRef.current = false;
+        sessionStorage.setItem(initialCheckKey, 'true');
+        
+        // Fetch profile in background (doesn't block navigation)
+        if (session?.user) {
+          fetchProfile(session.user.id).then((userProfile) => {
+            if (mounted) {
+              setProfile(userProfile);
+              profileRef.current = userProfile;
+            }
+          });
+        }
+      });
+    }
 
-    // Listen for auth changes
+    // Listen for auth changes (sign in, sign out, token refresh)
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!mounted) return;
+
+      const currentProfile = profileRef.current;
+      
+      // Update session and user immediately (fast)
       setSession(session);
       setUser(session?.user ?? null);
-      if (session?.user) {
-        const userProfile = await fetchProfile(session.user.id);
-        setProfile(userProfile);
-      } else {
+      
+      // Clear initialization flag on sign out to allow fresh check on next login
+      if (event === 'SIGNED_OUT') {
+        sessionStorage.removeItem(initialCheckKey);
         setProfile(null);
+        profileRef.current = null;
+        return;
       }
-      setLoading(false);
+      
+      if (session?.user) {
+        // Only fetch profile if:
+        // 1. We don't have a profile, OR
+        // 2. The user ID changed (different user logged in)
+        // This prevents unnecessary refetches during navigation
+        if (!currentProfile || currentProfile.id !== session.user.id) {
+          // Don't block - fetch in background
+          fetchProfile(session.user.id).then((userProfile) => {
+            if (mounted) {
+              setProfile(userProfile);
+              profileRef.current = userProfile;
+            }
+          });
+        }
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
@@ -175,6 +251,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       setSession(null);
       setProfile(null);
+      profileRef.current = null;
+      
+      // Clear session storage flag to allow fresh auth check on next login
+      sessionStorage.removeItem('comrade_auth_initialized');
       
       // Sign out from Supabase
       const { error } = await supabase.auth.signOut();
